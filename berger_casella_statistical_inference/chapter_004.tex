@@ -1,0 +1,579 @@
+\documentclass[12pt,letterpaper,reqno]{amsart}
+
+
+\include{Apackages} %this loads the packages
+
+
+\makeindex
+
+\author{Virgil Chan}
+\title{Casella-Berger \\ Statistical Inference Solution: \\ Chapter 4}
+\date{August 9, 2022}
+
+
+\usetikzlibrary{patterns,positioning,arrows,chains,matrix,positioning,scopes} %options for tikzpicture
+
+\addbibresource{bibliography.bib} %put your reference here
+
+
+\makeatletter
+\patchcmd{\@maketitle}
+  {\ifx\@empty\@dedicatory}
+  {\ifx\@empty\@date \else {\vskip3ex \centering\footnotesize\@date\par\vskip1ex}\fi
+   \ifx\@empty\@dedicatory}
+  {}{}
+\patchcmd{\@adminfootnotes}
+  {\ifx\@empty\@date\else \@footnotetext{\@setdate}\fi}
+  {}{}{}
+\makeatother
+
+\include{Atheoremsenvironments}
+
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+    
+\include{Acommand}
+
+\makeatletter
+\tikzset{join/.code=\tikzset{after node path={%
+\ifx\tikzchainprevious\pgfutil@empty\else(\tikzchainprevious)%
+edge[every join]#1(\tikzchaincurrent)\fi}}}
+
+\makeatother
+
+%\tikzset{>=stealth',every on chain/.append style={join},
+%        every join/.style={->}}
+
+\newlength{\parindentsave}\setlength{\parindentsave}{\parindent}
+
+\everymath{\displaystyle}
+
+\numberwithin{equation}{subsection} 
+
+\let\emptyset\varnothing
+
+\hypersetup{colorlinks,citecolor=blue,linkcolor=blue}
+
+\declaretheorem[numberwithin=section, shaded={rulecolor=black,
+rulewidth=0.5pt, bgcolor={rgb}{1,1,1}}]{Theorem}
+
+%\doublespacing
+
+\setcounter{tocdepth}{4}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Exercise 4.1}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item We want to know the probability for $(X,Y)$ to land inside the circle
+    
+    \[ X^2 + Y^2 = 1. \]
+    This circle has area $\pi$, so the probability is $\frac{\pi}{4}$.
+    
+    \item We want to know the probability for $(X,Y)$ to land below the line
+    
+    \[ 2X-Y = 0. \]
+    This line divides the square into two uniform trapeziums. One of them has vertices $\left( \pm \frac{1}{2}, \pm 1 \right)$, and has area $2$. Therefore, the probability is $\frac{1}{2}.$
+    
+    \item The region $\Abs{X+Y} < 2$ contains the square, so the probability is 1.
+\end{enumerate}
+
+\newpage
+\section{Exercise 4.4}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item 
+    
+    \begin{align*}
+        1 &= \myint{\myint{C(x+2y)}{x}{0}{2}}{y}{0}{1} \\
+          &= 4C
+    \end{align*}
+    So $C = \frac{1}{4}$.
+    
+    \item 
+    
+    \begin{align*}
+        \fun{f_X}{x} &= \myint{\frac{x+2y}{4}}{y}{0}{1} \\
+                     &= \frac{x+1}{4}
+    \end{align*}
+    on $\mycal{X} = (0,2)$.
+    
+    \item
+    
+    \begin{align*}
+        \fun{F_{XY}}{x,y} &= \fun{P}{X \leq x, Y \leq y} \\
+        &= \left\{ \begin{array}{cl}
+             0 & \mbox{if $x \leq 0$ or $y \leq 0$} \\
+             1 & \mbox{if $x \geq 2$, $y \geq 1$} \\
+             \myint{\myint{f(u,v)}{u}{0}{x}}{v}{0}{y} & \mbox{if else}
+        \end{array} \right.
+    \end{align*}
+    The if else case requires some work.
+    
+    \begin{align*}
+         \myint{\myint{f(u,v)}{u}{0}{x}}{v}{0}{y}
+         &= \left\{ \begin{array}{cl}
+             \myint{\myint{f(u,v)}{u}{0}{x}}{v}{0}{y}  & \mbox{if $0 < x < 2$, $0 < y < 1$} \\
+             \\
+             \myint{\myint{f(u,v)}{u}{0}{x}}{v}{0}{1}  & \mbox{if $0 < x < 2$, $y \geq 1$} \\
+              \\
+             \myint{\myint{f(u,v)}{u}{0}{2}}{v}{0}{y}  & \mbox{if $0 < x < 2$, $y \geq 1$} \\
+         \end{array} \right. \\
+         \\
+         &= \left\{ \begin{array}{cl}
+             \frac{xy(x+2y)}{8}  & \mbox{if $0 < x < 2$, $0 < y < 1$} \\
+             \\
+             \frac{x(x+2)}{8}  & \mbox{if $0 < x < 2$, $y \geq 1$} \\
+              \\
+             \frac{y(1+y)}{2}   & \mbox{if $x \geq 2$, $0 < y < 1$} \\
+         \end{array} \right. 
+    \end{align*}
+    
+    \item Let $z = g(x) = \frac{9}{(x+1)^2}$, then $g^{-1}(z) = \frac{3}{\sqrt{z}}-1$, and $\Dif{}{z} g^{-1}(z) = \frac{3}{-2 z^{\frac{3}{2}}}$. Therefore,
+    
+    \begin{align*}
+        f_Z(z) &= f_X(g^{-1}(z)) \cdot \Abs{\Dif{}{z} g^{-1}(z)} \\
+               &= \frac{9}{8z^2}
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 4.5}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item 
+    
+    \begin{align*}
+        \fun{P}{X > \sqrt{Y}} &= \myint{\myint{x+y}{x}{\sqrt{y}}{1}}{y}{0}{1} \\
+        &= \frac{7}{20}
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        \fun{P}{X^2 < Y < X} &= \myint{\myint{2x}{y}{x^2}{x}}{x}{0}{1} \\
+        &= \frac{1}{6}
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 4.6}
+
+Let $X$ (resp. $Y$) be the arrival time of $A$ (resp. $B$), so that $X \sim \uniformdist{[0,1]} \sim Y$.
+
+Let $T$ be the waiting time. Then
+
+\[ T = \max \SETT{Y-X, 0}. \]
+Therefore,
+
+\begin{align*}
+    \fun{P}{T < t} &= \fun{P}{Y-X < t, Y \geq X} + \fun{P}{Y < X}.
+\end{align*}
+The first summand represents the area inside the square $[0,1] \times [0,1]$, bounded between the lines $y = x+t$ and $y = x$. The second summand represents the area of half of the square. Thus,
+
+\begin{align*}
+    \fun{P}{T < t} &= \fun{P}{Y-X < t, Y \geq X} + \fun{P}{Y < X} \\
+    &= \myint{t}{x}{0}{1-t} + \myint{1-x}{x}{1-t}{1} + \frac{1}{2} \\
+    &= -\frac{t^2}{2} + t + \frac{1}{2}
+\end{align*}
+
+\newpage
+\section{Exercise 4.7}
+
+We represent the period from 8 AM to 9 AM by the closed interval $[0,1]$. Then $X \sim \uniformdist{ \left[ 0, \frac{1}{2} \right]}$, and $Y \sim \uniformdist{ \left[ \frac{2}{3}, \frac{5}{6} \right]}$. The arrival time is given by $X + Y$, with
+
+\[ f_{X+Y}(x,y) = 12. \]
+Therefore
+
+\begin{align*}
+    \fun{P}{X + Y < 1} &= \myint{f_{X+Y}(x,y)}{A}{R}{} \\
+    &= 12 \left( \mbox{area of $R$} \right).
+\end{align*}
+The region $R$ is bounded by the functions:
+
+\[ \left\{ \begin{array}{ccl}
+     x+ y &=& 1  \\
+     y &=& \frac{1}{2} \\
+     y &=& \frac{5}{6} \\
+     x &=& 0
+\end{array} \right. \]
+It is a trapezium with vertices $\left( 0, \frac{5}{6} \right), \left( \frac{1}{6}, \frac{5}{6} \right), \left( 0, \frac{2}{3} \right), \left( \frac{1}{3}, \frac{2}{3} \right)$, and has area $\frac{1}{24}$.
+
+Therefore,
+
+\[ \fun{P}{X+Y < 1} = 12 \cdot \frac{1}{24} = \frac{1}{2}. \]
+
+\newpage
+\section{Exercise 4.9}
+
+\begin{align*}
+    \fun{P}{a \leq X \leq b, c \leq Y \leq d} &= \fun{P}{X \leq b , c \leq Y \leq d} - \fun{P}{X \leq a, c \leq Y \leq d} \\
+    &= \left[ \fun{P}{X \leq b, Y \leq d} - \fun{P}{X \leq b, Y \leq c} \right] - \\
+    & \ \ \ \ \left[ \fun{P}{X \leq a, Y \leq d} - \fun{P}{X \leq a, Y \leq c} \right] \\
+    &= \fun{F_{X,Y}}{b,d} - \fun{F_{X,Y}}{b,c} - \fun{F_{X,Y}}{a,d} + \fun{F_{X,Y}}{a,c} \\
+    &= \left[ \fun{F_X}{b} - \fun{F_X}{a} \right] \fun{F_Y}{d} - \left[ \fun{F_X}{b} - \fun{F_X}{a} \right] \fun{F_Y}{c} \\
+    &= \left[ \fun{F_X}{b} - \fun{F_X}{a} \right] \left[ \fun{F_Y}{d} - \fun{F_Y}{c} \right] \\
+    &= \fun{P}{a \leq X \leq b} \fun{P}{c \leq Y \leq d}
+\end{align*}
+
+\newpage
+\section{Exercise 4.10}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item The marginal pdfs are given by
+    
+    \begin{align*}
+        \fun{f_X}{1} &= \frac{1}{4} & \fun{f_Y}{2} &= \frac{1}{3} \\
+        \fun{f_X}{2} &= \frac{1}{2} & \fun{f_Y}{3} &= \frac{1}{3} \\
+        \fun{f_X}{3} &= \frac{1}{4} & \fun{f_Y}{4} &= \frac{1}{3}
+    \end{align*}
+    
+    We see that
+    
+    \begin{align*}
+        \fun{P}{X = 2, Y = 3} &= 0 \\
+                              &\not= \frac{1}{2} \cdot \frac{1}{3} \\
+                              &= \fun{f_X}{2} \fun{f_Y}{3}
+    \end{align*}
+    Therefore, they are dependent.
+    
+    \item Let $U = X$, $V = Y$, and the pair $(U,V)$ has distribution
+    
+    \[ \fun{f_{U,V}}{u,v} = \fun{f_U}{u} \fun{f_V}{v}. \]
+\end{enumerate}
+
+\newpage
+\section{Exercise 4.11}
+
+Both $V$ and $V$ follow negative binomial distribution:
+
+\begin{align*}
+    U &\sim \negbinomdist{1, p}, \\
+    V &\sim \negbinomdist{2, p}.
+\end{align*}
+In particular,
+
+\begin{align*}
+    \fun{P}{V = k} = p \cdot \fun{P}{U = k-1}.
+\end{align*}
+This shows they are dependent.
+
+\newpage
+\section{Exercise 4.12}
+
+Without loss of generality, say the stick is given by the interval $(0,1)$. Let $X$, $Y$ be points chosen from $(0,1)$. Then $X \sim \uniformdist{(0,1)} \sim Y$, and
+
+\[ f_{X,Y}(x,y) = 1 \]
+on $(0,1) \times (0,1)$.
+
+By symmetry, we may assume $y > x$ first. The points $x$, $y$ divide $(0,1)$ into three pieces of length $x$, $y-x$, $1-y$ respectively. A triangle can be formed if and only if they satisfy the triangle inequality:
+
+\[ \left\{ \begin{array}{cl}
+     x+(y-x) &\geq 1-y \\
+     x+(1-y) &\geq y-x \\
+     (y-x)+(1-y) &\geq x
+\end{array} \right. \]
+or equivalently,
+\[ \left\{ \begin{array}{cl}
+     y &\geq \frac{1}{2} \\
+     y-x &\leq \frac{1}{2} \\
+     x &\leq \frac{1}{2}
+\end{array} \right. \]
+This is the triangle given by
+
+\[ \left\{ \begin{array}{l}
+     0 \leq x \leq \frac{1}{2}, \\
+     \frac{1}{2} \leq y \leq x + \frac{1}{2}
+\end{array} \right. \]
+Combining with the case $x>y$, the required probability is
+
+\begin{align*}
+    2 \myint{\myint{f_{X,Y}(x,y)}{y}{\frac{1}{2}}{x + \frac{1}{2}}}{x}{0}{\frac{1}{2}}
+    &= 2 \cdot \left(\mbox{area of the triangle} \right) \\
+    &= \frac{1}{4}.
+\end{align*}
+
+\newpage
+\section{Exercise 4.14}
+\label{Exercise 4.14}
+
+Since $X$ and $Y$ are independent, the joint distribution is given by
+
+\[ \fun{f_{X,Y}}{x,y} = \frac{1}{2\pi} e^{-\frac{(x^2+y^2)}{2}} \]
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item 
+    
+    \begin{align*}
+        \fun{P}{X^2+Y^2 < 1} &= \myint{\fun{f_{X,Y}}{x,y}}{A}{x^2+y^2<1}{} \\
+        &= \frac{1}{2\pi} \cdot \myint{\myint{r e^{-\frac{r^2}{2}}}{r}{0}{1}}{\theta}{0}{2\pi} \\
+        &= 1- e^{-\frac{1}{2}}
+    \end{align*}
+    
+    \item Let $Y = X^2$, then
+    
+    \begin{align*}
+        \fun{f_Y}{y} &= \fun{f_X}{\sqrt{y}} + \fun{f_X}{-\sqrt{y}} \\
+        &= \frac{1}{\sqrt{2\pi y}} e^{- \frac{y}{2}} \\
+    \end{align*}
+    which is the pdf for $\chi_1^2$. Therefore,
+    
+    \begin{align*}
+        \fun{P}{X^2 < 1} &= \myint{f_Y(y)}{y}{0}{1} \\
+        &\approx 0.682689
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 4.15}
+
+Let $U = X + Y$, and $V = X$. Then $U \sim \poissondist{\theta + \lambda}$; and $U$, $V$ are independent by \cite[Theorem 4.3.2 on page 158]{Berger-Casella}.
+
+We repeat the same computation as in \cite[Example 4.3.1 on page 157]{Berger-Casella} to find the joint pdf
+
+\[ \fun{f}{v,u} = \frac{\lambda^{u-v} \theta^v e^{-(\theta + \lambda)}}{(u-v)!v!} \]
+for $(U,V)$. Therefore, the conditional distribution is given by
+
+\begin{align*}
+    \fun{f}{\conditbar{v}{u}} &= \frac{\fun{f}{v,u}}{\fun{f}{u}} \\
+    &= \frac{\lambda^{u-v} \theta^v e^{-(\theta + \lambda)}}{(u-v)!v!} \cdot \frac{u!}{(\theta + \lambda)^u e^{-(\theta + \lambda)}} \\
+    &= \binom{u}{v} \left( \frac{\theta}{\theta + \lambda} \right)^v \left( \frac{\lambda}{\theta + \lambda} \right)^{u-v} \\
+    &\sim \binomdist{u, \frac{\theta}{\theta + \lambda}}.
+\end{align*}
+Likewise, $\conditbar{Y}{X+Y} \sim \binomdist{u, \frac{\lambda}{\theta + \lambda}}$.
+
+\newpage
+\section{Exercise 4.16}
+
+Write $X \sim \geometricdist{p} \sim Y$.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item The joint distribution is given by
+    
+    \begin{align*}
+        \fun{f}{u,v} &= \fun{P}{U = u, \ V = v} \\
+        &= \fun{P}{\fun{\min}{X, Y} = u, \ X-Y = v} \\
+        &= \left\{ \begin{array}{cl}
+            \fun{P}{Y=u, \ X = v+u} & \mbox{if $v \geq 0$}  \\
+            \fun{P}{X=u, \ Y = u-v} & \mbox{if $v < 0$} 
+        \end{array} \right. \\
+        &= \left\{ \begin{array}{cl}
+            (1-p)^{2u+v-2}p^2 & \mbox{if $v \geq 0$}  \\
+            (1-p)^{2u-v-2}p^2 & \mbox{if $v < 0$} 
+        \end{array} \right. \\
+        &= (1-p)^{2u + \Abs{v}-2} p^2 \\
+        &= \underbrace{\left[ (1-p)^{2u-1}p \right]}_{g(u)} \underbrace{\left[ (1-p)^{\Abs{v}-1}p \right]}_{h(v)}.
+    \end{align*}
+    \cite[Lemma 4.2.7 on page 153]{Berger-Casella} then says $U$, $V$ are independent.
+    
+    \item We begin by noting $Z$ takes values in $\D{Q}$. Therefore, we represent all possible values of $Z$ by fractions $\frac{r}{s}$ with $\mygcd{r,s} = 1$. We then compute
+    
+    \begin{align*}
+        \fun{P}{Z = \frac{r}{s}}
+        &= \fun{P}{\frac{X}{X+Y} = \frac{r}{s}} \\
+        &= \sum_{n=1}^{\infty} \fun{P}{X = nr, \ X+Y = ns} \\
+        &= \sum_{n=1}^{\infty} \fun{P}{X = nr, \ Y = n(s-r)} \\
+        &= \sum_{n=1}^{\infty} (1-p)^{ns-2}p^2 \\
+        &= \frac{(1-p)^{s-2}p^2}{1-(1-p)^{s-2}}
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        \fun{P}{X = u, \ X+Y = v} &= \fun{P}{X = u, \ Y = v-u} \\
+        &= (1-p)^{v-2} p^2
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 4.17}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item 
+    
+    \begin{align*}
+        \fun{P}{Y = y} &= \fun{P}{y \leq X < y + 1} \\
+        &= \myint{e^{-x}}{x}{y}{y+1} \\
+        &= (1-e^{-1}) \left( e^{-1} \right)^y \\
+        &\sim \geometricdist{e^{-1}}
+    \end{align*}
+    
+    \item Let $Z = X-4$. We compute the cdf first.
+    
+    \begin{align*}
+        \fun{P}{\conditbar{Z \leq z}{Y \geq 5}} &= \frac{\fun{P}{Z \leq z, \ Y \geq 5}}{\fun{P}{Y \geq 5}} \\
+        &= \frac{\fun{P}{Z \leq z, \ X \geq 4}}{\fun{P}{X \geq 4}} \\
+        &= \frac{\fun{P}{4 \leq X \leq z + 4}}{\fun{P}{X \geq 4}} \\
+        &= \frac{e^{-4}-e^{-4-z}}{e^{-4}} \\
+        &= 1- e^{-z}
+    \end{align*}
+    Therefore, the pdf is given by
+    
+    \begin{align*}
+        \fun{P}{\conditbar{Z = z}{Y \geq 5}} &= \Dif{}{z} 1 - e^{-z} \\
+        &= e^{-z}
+    \end{align*}
+    on $\mycal{Z} = [0, \infty)$.
+\end{enumerate}
+
+\newpage
+\section{Exercise 4.18}
+Polar coordinates.
+
+\newpage
+\section{Exercise 4.19}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item By \cite[Theorem 4.2.14 on page 156]{Berger-Casella}, if $X \sim \normaldist{\mu_X, \sigma_X^2}$ and $Y \sim \normaldist{\mu_Y, \sigma_Y^2}$, then $X-Y \sim \normaldist{\mu_X - \mu_Y, \sigma_X^2 + \sigma_Y^2}$. In particular, when $X$ and $Y$ are both standard normal, the difference
+
+\[ \frac{X-Y}{\sqrt{2}} \sim \normaldist{0, 1} \]
+is standard normal as well. It follows from Exercise 4.14 that
+
+\begin{align*}
+    \frac{(X-Y)^2}{2} &= \left( \frac{X-Y}{\sqrt{2}} \right)^2 \\
+    &\sim \left( \normaldist{0, 1} \right)^2 \\
+    &\sim \chi_1^2
+\end{align*}
+
+    \item Refer to \cite[page 158]{Berger-Casella}.
+    
+    Define
+    
+    \[ \left\{ \begin{array}{cl}
+         y_1 &= \frac{x_1}{x_1 + x_2}, \\
+        y_2 &= x_1 + x_2,
+    \end{array} \right. \]
+    so that
+    
+    \[ \left\{ \begin{array}{cl}
+        x_1 &= y_1 y_2, \\
+        x_2 &= y_2 (1-y_1).
+    \end{array} \right. \]
+    Next, the Jacobi determinant is given by
+    
+    \begin{align*}
+        \Abs{J} &= \left| \begin{array}{cc}
+             \dif{x_1}{y_1} & \dif{x_1}{y_2} \\
+             \dif{x_2}{y_1} & \dif{x_2}{y_2}
+        \end{array} \right| \\
+        &= \left\vert \begin{array}{cc}
+             y_2 & y_1 \\
+             -y_2 & 1-y_1
+        \end{array} \right\vert \\
+        &= \Abs{y_2}.
+    \end{align*}
+    
+    Therefore, the joint distribution for $Y_1 = \frac{X_1}{X_1 + X_2}$ and $Y_2 = X_1 + X_2$ is given by
+    
+    \begin{align*}
+        \fun{f_{Y_1, Y_2}}{y_1, y_2} &= \fun{f_{X_1, X_2}}{y_1 y_2,y_2 (1-y_1)} \cdot \Abs{y_2} \\
+        &= \fun{f_{X_1}}{y_1y_2} \cdot \fun{f_{X_2}}{y_2(1-y_1)} \cdot \Abs{y_2} & \left( \mbox{since $X_1$ and $X_2$ are independent.} \right) \\
+            &= \frac{(y_1y_2)^{\alpha_1 - 1} e^{-y_1 y_2}}{\fun{\Gamma}{\alpha_1}} \cdot \frac{(y_2(1-y_1))^{\alpha_2-1} e^{-y_2(1-y_1)}}{\fun{\Gamma}{\alpha_2}} \cdot \Abs{y_2} \\
+            &= \left[ \frac{y_1^{\alpha_1 - 1} (1-y_1)^{\alpha_2 - 1}}{\fun{\Gamma}{\alpha_1} \fun{\Gamma}{\alpha_2}} \right] \cdot \left[ y_2^{\alpha_1 + \alpha_2 - 1} e^{-y_2} \right] \\
+            &= \underbrace{\left[ \frac{\fun{\Gamma}{\alpha_1 + \alpha_2}}{\fun{\Gamma}{\alpha_1} \fun{\Gamma}{\alpha_2}} y_1^{\alpha_1 - 1} (1-y_1)^{\alpha_2 - 1} \right]}_{\fun{f_{Y_1}}{y_1}} \cdot \underbrace{\left[ \frac{y_2^{\alpha_1 + \alpha_2 - 1} e^{-y_2}}{\fun{\Gamma}{\alpha_1 + \alpha_2}} \right]}_{{\fun{f_{Y_2}}{y_2}}}.
+    \end{align*}
+    In particular, this shows $Y_1 \sim \betadist{\alpha_1, \alpha_2}$. Finding the pdf of $\frac{X_2}{X_1 + X_2} = 1 - Y_1$ is similar.
+\end{enumerate}
+
+\newpage
+\section{Exercise 4.20}
+
+We can think of the variables as Cartesian coordinates versus polar coordinates on $\D{R}^2$. The variables are related as:
+
+\begin{align*}
+    x_1 &= \sqrt{y_1} y_2, \\
+    x_2 &= \pm \sqrt{y_1 - y_1 y_2^2},
+\end{align*}
+and we have two Jacobi matrices:
+
+\begin{align*}
+      J_{\pm} &= \left[ \begin{array}{cc}
+           \frac{y_2}{2\sqrt{y_1}} & \sqrt{y_1} \\
+           \frac{\pm \sqrt{y_1 - y_1 y_2^2}}{2y_1} & \mp \frac{y_1 y_2}{\sqrt{y_1 - y_1 y_2^2}}
+      \end{array} \right], & 
+\end{align*}
+with $\Abs{J_{\pm}} = \frac{1}{2\sqrt{1 - y_2^2}}$. As a result, the joint distribution is given by
+
+\begin{align*}
+    \fun{f_{Y_1, Y_2}}{y_1, y_2} &= \left[ \fun{f_{X_1, X_2}}{\sqrt{y_1}y_2, \sqrt{y_1 - y_1 y_2^2}} + \fun{f_{X_1, X_2}}{\sqrt{y_1}y_2, -\sqrt{y_1 - y_1 y_2^2}} \right] \cdot \frac{1}{2\sqrt{1 - y_2^2}} \\
+    &= \left[ \frac{1}{2 \pi \sigma^2} e^{-\frac{y_1}{2\sigma^2}} \right] \cdot \left[ \frac{1}{\sqrt{1 - y_2^2}} \right],
+\end{align*}
+proving $Y_1$, $Y_2$ are independent as well.
+
+\newpage
+\section{Exercise 4.21}
+
+Write $\mycal{R} = R^2$. Then
+
+\begin{align*}
+    \fun{f_{X, Y}}{x,y} &= \fun{f_{\mycal{R}, \theta}}{\mycal{R} = x^2 + y^2, \theta = \fun{\arctan}{\frac{y}{x}}} \cdot \left\vert \begin{array}{cc}
+         \dif{\mycal{R}}{x} & \dif{\mycal{R}}{dy} \\
+         \dif{\theta}{x} & \dif{\theta}{dy}
+    \end{array} \right\vert \\
+    &= \left[ \frac{1}{2}e^{-\frac{x^2 + y^2}{2}} \right] \cdot \frac{1}{2\pi} \cdot \left\vert \begin{array}{cc}
+         2x & 2y \\
+         -\frac{y}{x^2 + y^2} & -\frac{x}{x^2 + y^2} \\
+    \end{array} \right\vert \\
+    &= \left[ \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} \right] \cdot \left[ \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} \right]
+\end{align*}
+
+\newpage
+\section{Exercise 4.22}
+
+We have
+
+\[ \left\{ \begin{array}{cc}
+     x &= \frac{u-b}{a}, \\
+     y &= \frac{v-d}{c}.
+\end{array} \right. \]
+The Jacobi determinant is then given by
+
+\begin{align*}
+    \Abs{J} &= \Abs{\begin{array}{cc}
+         \frac{1}{a} & 0  \\
+         0 & \frac{1}{c}
+    \end{array}} \\
+    &= \frac{1}{ac}.
+\end{align*}
+Therefore, the result follows immediately from \cite[page 158]{Berger-Casella}.
+
+\newpage
+\section{Exercise 4.27}
+
+Let
+
+\[ \left\{ \begin{array}{cc}
+     u &= x+y, \\
+     v &= x-y
+\end{array} \right. \]
+Then
+
+\begin{align*}
+    \fun{f_{U,V}}{u,v} &= \fun{f_{X,Y}}{\fun{x}{u,v}, \fun{y}{u,v}} \cdot \Abs{J} \\
+    &= \fun{f_X}{x(u,v)} \cdot \fun{f_Y}{y(u,v)} \cdot \Abs{J} \\
+    & \ \ \ \ \left(\mbox{since $X$ and $Y$ are independent} \right) \\
+    &= \fun{f_X}{x(u,v)} \cdot \fun{f_Y}{y(u,v)} \cdot \Abs{\begin{array}{cc}
+         \frac{1}{2}& \frac{1}{2}  \\
+         \frac{1}{2}& -\frac{1}{2}
+    \end{array}} \\
+    &= \frac{1}{2} \cdot \fun{f_X}{\frac{u+v}{2}} \cdot \fun{f_Y}{\frac{u-v}{2}} \\
+    &= \frac{1}{4\pi \sigma^2} \fun{\exp}{-\frac{1}{2\sigma^2}\left[ \left( \frac{u+v}{2} - \mu \right)^2 + \left( \frac{u-v}{2} - \gamma \right)^2 \right]} \\
+    &= \frac{1}{4\pi \sigma^2} \fun{\exp}{-\frac{1}{8\sigma^2} \left[\left[ (u+v) - 2\mu \right]^2 + \left[ (u-v) - 2\gamma \right]^2 \right]} \\
+    &= \frac{1}{4\pi \sigma^2} \fun{\exp}{-\frac{1}{8\sigma^2} \left[ 2 \left[ u - (\gamma + \mu) \right]^2 - 2(\gamma + \mu)^2 + 2v^2 + 4(\gamma - \mu)v + 4\mu^2 + 4 \gamma^2 \right]} \\
+    &= \frac{1}{4\pi \sigma^2} \fun{\exp}{-\frac{1}{8\sigma^2} \left[ 2 \left[ u - (\gamma + \mu) \right]^2 + 2 \left[ v - (\mu - \gamma) \right]^2 \right]} \\
+    &= \underbrace{\frac{1}{ \sqrt{2\pi} \cdot \sqrt{2}\sigma} \fun{\exp}{- \frac{1}{2} \cdot \frac{\left[ u - ( \gamma + \mu) \right]^2}{2 \sigma^2}}}_{\fun{f_U}{u}} \cdot \underbrace{\frac{1}{ \sqrt{2\pi} \cdot \sqrt{2}\sigma} \fun{\exp}{- \frac{1}{2} \cdot \frac{\left[ v - ( \gamma - \mu) \right]^2}{2 \sigma^2}}}_{\fun{f_V}{v}} \\
+    &\sim \normaldist{\gamma + \mu, 2\sigma^2} \cdot \normaldist{\gamma - \mu, 2\sigma^2}
+\end{align*}
+
+
+\newpage
+\nocite{*}
+\printbibliography
+
+\end{document}

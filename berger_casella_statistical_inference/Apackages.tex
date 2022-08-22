@@ -1,0 +1,74 @@
+\usepackage{lipsum} %separate the paragraphs of the dummy text into TEX-paragraphs.
+
+\usepackage{tikz} %commutative diagrams
+
+\usepackage{setspace} %Provides support for setting the spacing between lines in a document.
+
+\usepackage{amsmath,amssymb} %provides miscellaneous enhancements for improving the information structure and printed output of documents containing mathematical formulas. e.g., \DeclareMathOperator, \sin, \lim
+
+\usepackage{enumitem} %additional options for \enumerate
+
+\usepackage{subfig} %provides support for the manipulation and reference of small or ‘sub’ figures and tables within a single figure or table environment.
+
+\usepackage{framed} %box, shaded, put a left line around a region.
+
+\usepackage{etoolbox} %provides LATEX frontends to some of the new primitives provided by e-TEX as well as some generic tools which are not strictly related to e-TEX but match the profile of this package.
+
+\usepackage{bm} %Access bold symbols in maths mode
+
+\usepackage{mdframed} %Framed environments that can split at page boundaries
+
+\usepackage{mathrsfs} %Support for using RSFS fonts in maths
+
+\usepackage{centernot} %Centred \not command
+
+\usepackage{thmtools} %Extensions to theorem environments
+
+\usepackage{thm-restate} %Restate Theorem
+
+\usepackage{fancyvrb} %Sophisticated verbatim text
+
+\usepackage{dsfont} %?
+
+\usepackage{bbm} %Blackboard variants of Computer Modern fonts.
+
+\usepackage{breqn} %Automatic line breaking of displayed equations
+
+\usepackage{adjustbox} %The package provides several macros to adjust boxed content.
+
+\usepackage{tabularx} %The package defines an environment tabularx, an extension of tabular which has an additional column designator, X, which creates a paragraph-like column whose width automatically expands so that the declared width of the environment is filled. (Two X columns together share out the available space between them, and so on.)
+
+\usepackage{calligra} %Calligraphic font
+
+\usepackage[
+    backend=bibtex, 
+    natbib=true, 
+    bibstyle=verbose, citestyle=verbose,    % bibstyle extensively modifed below
+    doi=true, url=true,                     % excluded from citations below
+    citecounter=true, citetracker=true,
+    block=space, 
+    backref=false, backrefstyle=two,
+    abbreviate=false,
+    isbn=true, maxbibnames=4, maxcitenames=4,
+    style=alphabetic
+]{biblatex} %Adding Reference to your paper.
+
+\usepackage[margin=1in]{geometry} %edit margin of your document
+
+\usepackage[makeindex]{imakeidx} %making index
+
+\usepackage{empheq} %The package provides a visual markup extension to amsmath.
+
+\usepackage{longtable} %allow longtable
+
+\usepackage[mathscr]{eucal}%change mathscr
+
+\usepackage{xpatch} %fix skipbelow in mdframe
+
+\usepackage{standalone}  %need this to include the tikz picture created in different files.
+
+\usepackage{wasysym}
+
+\usepackage{bashful}
+
+\usepackage{hyperref,cleveref} %Extensive support for hypertext in LATEX (ALWAYS LOAD LAST!)

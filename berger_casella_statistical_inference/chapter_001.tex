@@ -1,0 +1,810 @@
+\documentclass[12pt,letterpaper,reqno]{amsart}
+
+
+\include{Apackages} %this loads the packages
+
+
+\makeindex
+
+\author{Virgil Chan}
+\title{Casella-Berger \\ Statistical Inference Solution: \\ Chapter 1}
+\date{July 27, 2022}
+
+
+\usetikzlibrary{patterns,positioning,arrows,chains,matrix,positioning,scopes} %options for tikzpicture
+
+\addbibresource{bibliography.bib} %put your reference here
+
+
+\makeatletter
+\patchcmd{\@maketitle}
+  {\ifx\@empty\@dedicatory}
+  {\ifx\@empty\@date \else {\vskip3ex \centering\footnotesize\@date\par\vskip1ex}\fi
+   \ifx\@empty\@dedicatory}
+  {}{}
+\patchcmd{\@adminfootnotes}
+  {\ifx\@empty\@date\else \@footnotetext{\@setdate}\fi}
+  {}{}{}
+\makeatother
+
+\include{Atheoremsenvironments}
+
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+    
+\include{Acommand}
+
+\makeatletter
+\tikzset{join/.code=\tikzset{after node path={%
+\ifx\tikzchainprevious\pgfutil@empty\else(\tikzchainprevious)%
+edge[every join]#1(\tikzchaincurrent)\fi}}}
+
+\makeatother
+
+%\tikzset{>=stealth',every on chain/.append style={join},
+%        every join/.style={->}}
+
+\newlength{\parindentsave}\setlength{\parindentsave}{\parindent}
+
+\everymath{\displaystyle}
+
+\numberwithin{equation}{subsection} 
+
+\let\emptyset\varnothing
+
+\hypersetup{colorlinks,citecolor=blue,linkcolor=blue}
+
+\declaretheorem[numberwithin=section, shaded={rulecolor=black,
+rulewidth=0.5pt, bgcolor={rgb}{1,1,1}}]{Theorem}
+
+%\doublespacing
+
+\setcounter{tocdepth}{4}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Problem 1.1}
+
+For each of the following experiments, describe the sample space.
+
+\begin{enumerate}[label = (\alph*), leftmargin=*]
+    \item Toss a coin four times.
+    \item Count the number of insect-damaged leaves on a plant.
+    \item Measure the lifetime (in hours) of a particular brand of light bulb.
+    \item Record the weights of 10-day-old rats.
+    \item Observe the proportion of defectives in a shipment of electronic components.
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+
+\begin{enumerate}[label= (\alph*), leftmargin=*]
+    \item $S = \SET{(x_1, x_2, x_3, x_4)}{\mbox{$x_i$ is either head or tail.}}$
+    \item $S = \D{N} \cup \SETT{0} \subseteq \D{Z}$
+    \item $S = [0, \infty) \subseteq \D{R}$
+    \item $S = (0, \infty) \subseteq \D{R}$
+    \item $S = [0, 1] \subseteq \D{R}$
+    
+\end{enumerate}
+
+\end{proof}
+
+\newpage
+\section{Problem 1.2} 
+
+Verify the following identities.
+
+\begin{enumerate}[label = (\alph*), leftmargin=*]
+    \item $A - B = A - (A \cap B) = A \cap B^c$
+    \item $B = (B \cap A) \cup (B \cap A^c)$
+    \item $B - A = B \cap A^c$
+    \item $A \cup B = A \cup (B \cap A^c)$
+    
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+
+\begin{enumerate}[label = (\alph*), leftmargin=*]
+    \item 
+    
+    \begin{align*}
+        A - (A \cap B) &= \SET{x \in A}{x \not\in A \cap B} \\
+                       &= \SET{x \in A}{\mbox{$x \not\in A$ and $x \not\in B$}} \\
+                       &= \SET{x \in A}{x \not\in B} \\
+                       &= A - B \\
+                       &= \SET{x \in A}{x \not\in B} \\
+                       &= \SET{x \in A}{x \in B^c} \\
+                       &= \SET{x}{\mbox{$x \in A$ and $x \in B^c$}} \\
+                       &= A \cap B^c
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        (B \cap A) \cup (B \cap A^c) &= \SET{x}{\mbox{$x \in B \cap A$ or $x \in B \cap A^c$}} \\
+        &= \SET{x}{\left(\mbox{$x \in B$ and $x \in A$} \right) \ \mbox{or} \ \left(\mbox{$x \in B$ and $x \in A^c$} \right)} \\
+        &= \SET{x}{x \in B \ \mbox{and} \left( \mbox{either $x \in A$ or $x \in A^c$} \right)} \\
+        &= \SET{x}{x \in B \ \mbox{and} \ x \in A \cup A^c} \\
+        &= \SET{x}{x \in B} \\
+        &= B
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        B \cap A^c &= \SET{x}{\mbox{$x \in B$ and $x \in A^c$}} \\
+                   &= \SET{x}{\mbox{$x \in B$ and $x \not\in A$}} \\
+                   &= B-A
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        A \cup (B \cap A^c) &= \SET{x}{\mbox{$x \in A$ or $x \in B \cap A^c$}} \\
+                            &= \SET{x}{x \in A \ \mbox{or} \ \left(\mbox{$x \in B$ and $x \in A^c$} \right)} \\
+                            &= \SET{x}{\left( x \in A \ \mbox{or} \ x \in B \right) \ \mbox{and} \ \left( x \in A \ \mbox{or} \ x \in A^c \right)} \\
+                            &= \SET{x}{\mbox{$x \in A$ or $x \in B$}} \\
+                            &= A \cup B
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.3}
+
+Finish the proof of \cite[Theorem 1.1.4 on page 3]{Berger-Casella}. For any events $A$, $B$, and $C$ defined on a sample space $S$, show that
+
+\begin{enumerate}[label= (\alph*), leftmargin=*]
+    \item $A \cup B = B \cup A$ and $A \cap B = B \cap A$.
+    \item $A \cup (B \cup C) = (A \cup B) \cup C$ and $A \cap (B \cap C) = (A \cap B) \cap C$.
+    \item $(A \cup B)^c = A^c \cap B^c$ and $(A \cap B)^c = A^c \cup B^c$.
+\end{enumerate}~\\
+
+\begin{proof}[Solution] We prove the statement for union. The case for intersection is analogous.
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item
+    
+    \begin{align*}
+        A \cup B &= \SET{x}{\mbox{$x \in A$ or $x \in B$}} \\
+                 &= \SET{x}{\mbox{$x \in B$ or $x \in A$}} \\
+                 &= B \cup A
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        A \cup (B \cup C) &= \SET{x}{\mbox{$x \in A$ or $x \in B \cup C$}} \\
+                          &= \SET{x}{x \in A \ \mbox{or} \ \left(x \in B \ \mbox{or} \ x \in C \right)} \\
+                          &= \SET{x}{\left( x \in A \ \mbox{or} \ x \in B \right) \ \mbox{or} \ x \in C} \\
+                          &= (A \cup B) \cup C
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        A^c \cap B^c &= \SET{x}{\mbox{$x \in A^c$ and $x \in B^c$}} \\
+                     &= \SET{x}{\mbox{$x \not\in A$ and $x \not\in B$}} \\
+                     &= \SET{x}{\mbox{not $\left( x \in A \ \mbox{or} \ x \in B \right)$}} \\
+                     &= \SET{x}{\mbox{not $x \in A \cup B$}} \\
+                     &= \left(A \cup B \right)^c
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.4}
+
+For events $A$ and $B$, find formulas for the probabilities of the following events in terms of the quantities $P(A)$, $P(B)$, and $P(A \cap B)$.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item either $A$ or $B$ or both
+    \item either $A$ or $B$ but not both
+    \item at least one of $A$ or $B$
+    \item at most one of $A$ or $B$
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item 
+    
+    \begin{align*}
+        \fun{P}{A \cup B \cup (A \cap B)} &= \fun{P}{A \cup B} \\
+                                          &= P(A) + P(B) - P(A \cap B)
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        \fun{P}{(A \cap B^c) \cup (B \cap A^c)} &= \fun{P}{ \left(A \cup (B \cap A^c) \right) \cap \left(B^c \cup (B \cap A^c) \right)} \\
+        &= \fun{P}{\left(A \cup B \right) \cap \left(B^c \cup A^c \right)} \\
+        &= \fun{P}{\left( A \cup B \right) \cap \left( A \cap B \right)^c} \\
+        &= \fun{P}{\left( A \cup B \right) - \left( A \cap B \right)} \\
+        &= \fun{P}{A} + \fun{P}{B} - 2\fun{P}{A \cap B}
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        \fun{P}{A \cup B} = P(A) + P(B) - P(A \cap B)
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        P((A \cap B)^c) = 1 - P(A \cap B)
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.5} Approximately one-third of all human twins are identical (one-egg) and two-thirds are fraternal (two-egg) twins. Identical twins are necessarily the same sex, with male and female being equally likely. Among fraternal twins, approximately one-fourth are both female, one-fourth are both male, and half are one male and one female. Finally, among all U.S. births, approximately 1 in 90 is a twin birth. Define the following events:
+
+\begin{align*}
+    A &= \SETT{\mbox{a U.S. birth results in twin females}} \\
+    B &= \SETT{\mbox{a U.S. birth results in identical twins}} \\
+    C &= \SETT{\mbox{a U.S. birth results in twins}}
+\end{align*}
+
+\begin{enumerate}[label=(\alph*), leftmargin=*]
+    \item State, in words, the event $A \cap B \cap C$.
+    \item Find $P(A \cap B \cap C)$.
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item A U.S. birth results in identical twin females.
+    
+    \item
+    
+    \begin{align*}
+        P(A \cap B \cap C) &= \frac{1}{90} \cdot \frac{1}{3} \cdot \frac{1}{2} \\
+                           &= \frac{1}{540}
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.6} Two pennies, one with $\fun{P}{\mbox{head}} = u$ and one with $\fun{P}{\mbox{head}} = w$, are to be tossed together independently. Define
+
+\begin{align*}
+    p_0 &= \fun{P}{\mbox{0 heads occur}}, \\
+    p_1 &= \fun{P}{\mbox{1 heads occur}}, \\
+    p_2 &= \fun{P}{\mbox{2 heads occur}}. \\
+\end{align*}
+Can $u$ and $w$ be chosen such that $p_0 = p_1 = p_2$? Prove your answer.
+
+\begin{proof}[Solution]
+We cannot. 
+
+We have
+
+\begin{align*}
+    p_0 &= (1-u)(1-w) \\
+        &= 1-w-u+uw, \\
+        \\
+    p_1 &= u(1-w) + (1-u)w \\
+        &= u+w -2uw, \\
+        \\
+    p_2 &= uw.
+\end{align*}
+
+If $p_0 = p_2$, then
+\[ u + w = 1. \]
+
+If $p_0 = p_1$, then
+\begin{align*}
+    p_0 &= p_1 \\
+    1 - w - u + uw &= u + w - 2uw & \left(\mbox{if $p_0 = p_2$} \right) \\
+    uw &= 1 - 2uw \\
+    uw &= \frac{1}{3}
+\end{align*}
+
+Therefore, we have
+
+\[ \left\{ \begin{array}{cc}
+    u + w &= 1 \\
+    uw &= \frac{1}{3}
+\end{array} \right. \]
+
+which has no solution.
+\end{proof}
+
+\newpage
+\section{Problem 1.7}
+
+Refer to the dart game of \cite[Example 1.2.7 on page 8]{Berger-Casella}. Suppose we do not assume that the probability of hitting the dart board is 1, but rather is proportional to the area of the dart board. Assume that the dart board is mounted on a wall that is hit ith probability 1, and the wall has area $A$.
+
+\begin{enumerate}[label=(\alph*), leftmargin=*]
+    \item Using the fact that the probability of hitting a region is proportional to area, construct a probability function for $\fun{P}{\mbox{scoring $i$ points}}$, $i = 0, \cdots, 5$. (No points are scored if the dart board is not hit.)
+    
+    \item Show that the conditional probability distribution $\fun{P}{\mbox{scoring $i$ points} \ \mid \ \mbox{board is hit}}$ is exactly the probability distribution of \cite[Example 1.2.7 on page 8]{Berger-Casella}.
+\end{enumerate}~\\
+
+\begin{proof}[Solution]
+
+Let $r$ be the radius of the dart board.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item \label{1.7a}
+    
+    \[ \fun{P}{\mbox{scoring $i$ points}} = \left\{ \begin{array}{cl}
+         1 - \frac{\pi r^2}{A} & \mbox{if $i = 0$},  \\
+         \frac{\pi r^2}{A} \left[ \frac{(6-i)^2 - (5-i)^2}{5^2} \right] & \mbox{if $ 1 \leq i \leq 5$}.
+    \end{array} \right. \]
+    
+    \item
+    
+    \begin{align*}
+        \fun{P}{\mbox{scoring $i$ points} \ \mid \ \mbox{board is hit}} &= \frac{\fun{P}{\mbox{scoring $i$ points and board is hit}}}{\fun{P}{\mbox{board is hit}}} \\
+        &= \frac{\frac{\pi r^2}{A} \left[ \frac{(6-i)^2 - (5-i)^2}{5^2} \right]}{\frac{\pi r^2}{A}} & \left( \mbox{part (a)} \right) \\
+        &= \frac{(6-i)^2 - (5-i)^2}{5^2}
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.8}
+
+Again refer to the game of darts explained in \cite[Example 1.2.7 on page 8]{Berger-Casella}.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Derive the general formula for the probability of scoring $i$ points.
+    \item Show that $\fun{P}{\mbox{scoring $i$ points}}$ is a decreasing function of $i$, that is, as the points increase, the probability of scoring them decreases.
+    \item Show that $\fun{P}{\mbox{scoring $i$ points}}$ is a probability function according to the Kolmogorov Axioms.
+\end{enumerate}~\\
+
+\begin{proof} Let $P(i) = \fun{P}{\mbox{scoring $i$ points}}$.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item By \myref{Problem 1.7}{1.7a}, we have
+    
+    \[ \fun{P}{i} = \left\{ \begin{array}{cl}
+         1 - \frac{\pi r^2}{A} & \mbox{if $i = 0$},  \\
+         \frac{\pi r^2}{A} \left[ \frac{(6-i)^2 - (5-i)^2}{5^2} \right] & \mbox{if $ 1 \leq i \leq 5$}.
+    \end{array} \right. \]
+    
+    \item Follows immediately from part (a).
+    
+    \item Clearly, we have $P(i) \geq 0$ for all $i$.
+    
+    Next, if $S$ is the sample space, then
+    
+    \begin{align*}
+        P(S) &= \fun{P}{\mbox{hitting the wall}} \\
+             &= 1 & \left( \mbox{by definition} \right).
+    \end{align*}
+    
+    Finally, if $i \not= j$, then
+    
+    \begin{align*}
+        \fun{P}{\mbox{$i$ or $j$}} &= \fun{P}{\mbox{hitting $i$-th region or hitting $j$-th region}} \\
+        &= \fun{P}{\mbox{hitting $i$-th region}} + \fun{P}{\mbox{hitting $j$-th region}} & \left( \mbox{regions are disjoint} \right) \\
+        &= P(i) + P(j).
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.9}
+Prove the general version of DeMorgan's Laws. Let $\SET{A_{\alpha}}{\alpha \in \Gamma}$ be a (possibly uncountable) collection of sets. Prove that
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item  $\left( \bigcup_{\alpha} A_{\alpha} \right)^c = \bigcap_{\alpha} A^c_{\alpha}$.
+    
+    \item $\left( \bigcap_{\alpha} A_{\alpha} \right)^c = \bigcup_{\alpha} A^c_{\alpha}$.
+\end{enumerate}~\\
+
+\begin{proof}[Solution] We prove part (a) here, part (b) is analogous.
+
+\begin{align*}
+    \left( \bigcup_{\alpha} A_{\alpha} \right)^c &= \SET{x}{x \not\in \bigcup_{\alpha} A_{\alpha}} \\
+    &= \SET{x}{\mbox{$x \not\in A_{\alpha}$ for all $\alpha \in \Gamma$}} \\
+    &= \SET{x}{\mbox{$x \in A_{\alpha}^c$ for all $\alpha \in \Gamma$}} \\
+    &= \bigcap_{\alpha} A_{\alpha}^c
+\end{align*}
+\end{proof}
+
+\newpage
+\section{Problem 1.10}
+
+Formulate and prove a version of DeMorgan's Laws that applies to a finite collection of sets $A_1, \cdots, A_n$.
+
+\begin{proof}[Solution]
+$\left( \bigcup_{i=1}^n A_i \right)^c = \bigcap_{i=1}^n A_i^c$ and $\left( \bigcap_{i=1}^n A_i \right)^c = \bigcup_{i=1}^n A_i^c$
+\end{proof}
+
+\newpage
+\section{Problem 1.11}
+
+Let $S$ be a sample space.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Show that the collection $\mycal{B} = \SETT{\emptyset, S}$ is a sigma algebra.
+    
+    \item Let $\mycal{B} = \SETT{\mbox{all subsets of $S$, including $S$ itself}}$. Show that $\mycal{B}$ is a sigma algebra.
+    
+    \item Show that the intersection of two sigma algebras is a sigma algebra.
+\end{enumerate}~\\
+
+\begin{proof}[Solution] Refer to \cite[Definition 1.2.1 on page 6]{Berger-Casella} for the definition of sigma algebra.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Trivial.
+    \item Trivial.
+    \item The first two conditions are trivial. We show the intersection $\mycal{B}_1 \cap \mycal{B}_2$ of two sigma algebras is closed under countable unions.
+    
+    If $A_1, A_2, \cdots \in \mycal{B}_1 \cap \mycal{B}_2$, then $A_i \in \mycal{B}_j$ for all $i$ and $j$. So $\bigcup_{i = 1}^{\infty} A_i \in \mycal{B}_j$ for all $j$ by definition of an sigma algebra.
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.12}
+
+It was noted in \cite[page 9]{Berger-Casella} that statisticians who follow the deFinetti school do not accept the Axiom of Countable Additivity, instead adhering to the Axiom of Finite Additivity.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Show that the Axiom of Countable Additivity implies Finite Additivity.
+    \item Alghtouh, by iteself, the Axiom of Finite Additivity does not imply Countable Additivity, suppose we suplement it with the following. Let $A_1 \supseteq A_2 \supseteq \cdots \supseteq A_n \supseteq \cdots$ be an infinite sequence of nested sets whose limit is the empty set, which we denote by $A_n \downarrow \emptyset$. Consider the following:
+    \begin{center}
+        {\bf Axiom of Countinuty:} If $A_n \downarrow \emptyset$, then $P(A_n) \rightarrow 0$.
+    \end{center}
+    Prove that the Axiom of Continuity and the Axiom of Finite Additivity imply Countable Additivity.
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item If $A_1, A_2$ are two disjoint sets in the sigma algebra $\mycal{B}$, then put $A_i := \emptyset$ for $i \geq 3$. Then
+    
+    \begin{align*}
+        \fun{P}{\bigcup_{i = 1}^{\infty} A_i} &= \sum_{i=1}^{\infty} \fun{P}{A_i} & \left(\mbox{Countable Additivity} \right) \\
+        &= \fun{P}{A_1} + \fun{P}{A_2} + \sum_{i=3}^{\infty} \fun{P}{A_i} \\
+        &= \fun{P}{A_1} + \fun{P}{A_2}.
+    \end{align*}
+    
+    \item If $\SETT{B_i}_{i=1}^{\infty} \subseteq \mycal{B}$ is a sequence of pairwise disjoint subsets from the sigma algebra, define
+    \begin{align*}
+        A &:= \bigcup_{i=1}^{\infty} B_i, \\
+        A_j &:= A - \bigcup_{i=1}^j B_j \ \mbox{for all $j$}.
+    \end{align*}
+    Then we have $\bigcup_{j=1}^{\infty} A_j = A$ and $A_j \downarrow \emptyset$. Therefore,
+    
+    \begin{align*}
+        \fun{P}{\bigcup_{i=1}^{\infty} B_i} &= \fun{P}{\bigcup_{i=1}^n B_i \cup \bigcup_{i \geq n+1} B_i} \\
+                                            &= \sum_{i=1}^{n}\fun{P}{B_i} + \fun{P}{\bigcup_{i \geq n + 1} B_i} & \left( \mbox{Finite Addivity} \right) \\
+                                            &= \sum_{i=1}^{n}\fun{P}{B_i} + \fun{P}{A_n}.
+    \end{align*}
+    The result follows from taking $n \rightarrow \infty$.
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.13}
+
+If $\fun{P}{A} = \frac{1}{3}$ and $\fun{P}{B^c} = \frac{1}{4}$, can $A$ and $B$ be disjoint? Explain.
+
+\begin{proof}[Solution]
+They are not disjoint. We have
+
+\begin{align*}
+    1 &\geq \fun{P}{A \cup B} \\
+      &= \fun{P}{A} + \fun{P}{B} - \fun{P}{A \cap B} \\
+      &= \frac{1}{3} + \frac{3}{4} - \fun{P}{A \cap B}
+\end{align*}
+which gives $\fun{P}{A \cap B} > 0$.
+\end{proof}
+
+\newpage
+\section{Problem 1.14}
+
+Suppose that a sample space $S$ has $n$ elements. Prove that the number of subsets that can be formed from the elements of $S$ is $2^n$.
+
+\begin{proof}[Solution]
+There are $\binom{n}{k}$ subsets with exactly $0 \leq k \leq n$ elements. The result follows immediately from
+
+\[ \sum_{k=0}^n \binom{n}{k} = (1+1)^n = 2^n. \]
+\end{proof}
+
+\newpage
+\section{Problem 1.15}
+
+Finish the proof of \cite[Theorem 1.2.14 on page 13]{Berger-Casella}. Use the result established for $k = 2$ as the basis of an induction argument.
+
+\begin{proof}[Solution] The base case $k = 2$ is completed on \cite[page 14]{Berger-Casella}. Assume the statement is true for some integer $k \geq 2$.
+
+When there are $ k + 1$ separate tasks, the inductive hypothesis says there are $\prod_{i=1}^k n_k$ ways to complete the first $k$ tasks. If there are $n_{k+1}$ ways to complete the last task, then the base case says there are $\prod_{i=1}^{k+1} n_k$ ways to complete the $k+1$ tasks.
+
+Therefore, the claim follows from induction.
+\end{proof}
+
+\newpage
+\section{Problem 1.16}
+
+How many different sets of initials can be formed if every person has one surname and 
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item exactly two given names?
+    \item either one or two given names?
+    \item either one or two or three given names?
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item $26 \cdot 26 \cdot 26 = 26^3$
+    \item $26(26 + 26^2) = 26^2 + 26^3$
+    \item $26(26 + 26^2 + 26^3)$
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.17}
+
+In the game of dominoes, each piece is marked with two numbers. The pieces are symmetrical so that the number pair is not ordered (so, for example, $(2,6) = (6,2)$). How many different pieces can be formed using the numbers $1, 2, \cdots, n$?
+
+\begin{proof}[Solution]
+If the first number is $k$, then there are $n-k$ choices for the second number. So there number of pairs is given by
+
+\begin{align*}
+    \sum_{k=1}^n n-k = \sum_{k=1}^n k = \frac{n(n+1)}{2}.
+\end{align*}
+\end{proof}
+
+\newpage
+\section{Problem 1.18}
+
+If $n$ balls are placed at random into $n$ cells, find the probability that exactly one cell remains empty.
+
+\begin{proof}[Solution]
+In order the have exactly one cell empty, we must have two balls placed at the same cell.
+
+There are total of $n^n$ placements. There are $\binom{n}{2}$ ways to choose the two balls to be placed at the same cell. There are $\binom{n}{1}$ ways to choose to cell to hold two balls. Therefore, the answer is
+
+\[ \frac{\binom{n}{2} \binom{n}{1}}{n^n}. \]
+\end{proof}
+
+\newpage
+\section{Problem 1.19}
+
+If a multivariate function has continuous partial derivatives, the order in which the derivatives are calculated does not matter. Thus, for example, the function $f(x,y)$ of two variables has equal third partials
+
+\[ \frac{\partial^3}{\partial x^2 \partial y} f(x,y) = \frac{\partial^3}{\partial y \partial x^2} f(x,y). \]
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item How many fourth partial derivatives does a function of three variables have?
+    \item Prove that a function of $n$ variables has $\binom{n+r-1}{r}$ $r$-th partial derivatives.
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item By part (b), there are $\binom{3 + 4 - 1}{4} = 15$ derivatives.
+    \item We are choosing $k$ variables from $n$ with replacement. The number of combination with repetition allowed is $\binom{n+k - 1}{k}$.
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.20}
+
+My telephone rings 12 times each week, the calls being randomly distributed among the 7 days. What is the probability that I get at least one call each day?
+
+\begin{proof}[Solution]
+Let $A_i$ be the number of ways to distribute 12 phone calls among $i$ days in a week. Then
+
+\[ A_i = \binom{7}{i} i^{12}, \]
+and $A_7 = 7^{12}$ is the total number of ways to distribute 12 phone calls in a week. Now,
+
+\begin{align*}
+    \mbox{at least one call each day} &= \mbox{total number} - \mbox{no calls on 1 day} + \\
+    & \ \ \ \ \mbox{no calls on 2 days} - \mbox{no calls on 3 days} + \\
+    & \ \ \ \ \mbox{no calls on 4 days} - \mbox{no calls on 5 days} + \\
+    & \ \ \ \ \mbox{no calls on 6 days} \\
+    &= 7^{12} + \sum_{i=1} (-1)^i A_i \\
+    &= 3162075840.
+\end{align*}
+
+Therefore, the required probability is
+
+\[ \frac{3162075840}{7^{12}} \approx 0.2285. \]
+\end{proof}
+
+\newpage
+\section{Problem 1.21}
+A closet contains $n$ pairs of shoes. If $2r$ shoes are chosen at random $(2r < n)$, what is the probability that there will be no matching pair in the sample?
+
+\begin{proof}[Solution]
+To have no matching pair, one can only choose at most one shoe from each pair. There are $\binom{n}{2r}$ ways to choose $2r$ pairs from $n$ pairs. For each pair, we then have to choose left one or right. So there are $\binom{n}{2r} 2^{2r}$ non-matching shoes. The required probability is:
+
+\[ \frac{\binom{n}{2r} 2^{2r}}{\binom{2n}{2r}}. \]
+\end{proof}
+
+\newpage
+\section{Problem 1.22}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item In a draft lottery containing the 66 days of the year (including February 29), what is the probability that the first 180 days drawn (without replacement) are evenly distributed among the 12 months?
+    \item What is the probability that the first 30 days drawn contain none from September?
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item We have to pick 15 days from each month:
+    \[ 7 \binom{31}{15} \cdot 4 \binom{30}{15} \cdot \binom{29}{15}. \]
+    So the required probability is:
+    \[ \frac{28 \binom{31}{15}\binom{30}{15}\binom{29}{15}}{\binom{366}{180}}. \]
+    
+    \item The required probability is
+    
+    \[ \frac{\binom{366-30}{30}}{\binom{366}{30}} = \frac{\binom{336}{30}}{\binom{366}{30}}. \]
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.23}
+
+Two people each toss a fair coin $n$ times. Find the probability that they will toss the same number of heads.
+
+\begin{proof}[Solution]
+
+We begin with the following identity
+
+\begin{equation}
+    \sum_{k=0}^n \binom{n}{k}^2 = \binom{2n}{n}.
+\end{equation}
+To prove this, first note that
+\[ \binom{n+m}{r} = \sum_{k=0}^{r} \binom{n}{k} \binom{m}{r-k}. \]
+Then we have
+
+\begin{align*}
+    \binom{2n}{n} &= \sum_{k=0}^n \binom{n}{k} \binom{n}{n-k} \\
+                  &= \sum_{k=0}^n \binom{n}{k}^2.
+\end{align*}
+
+Now, the probability for $A$ to get $k$ heads out $n$ tosses is $\binom{n}{k} \left(\frac{1}{2} \right)^n$. Therefore, the required probability is
+
+\begin{align*}
+    \sum_{k=0}^n \left[ \binom{n}{k} \left(\frac{1}{2} \right)^n \right]^2 &= \sum_{k=0}^n \binom{n}{k}^2 \left(\frac{1}{4} \right)^n \\
+    &= \binom{2n}{n} \left( \frac{1}{4} \right)^n.
+\end{align*}
+\end{proof}
+
+\newpage
+\section{Problem 1.24}
+
+Two players, $A$ and $B$, alternately and independently flip a coin and the first player to obtain a head wins. Assume player $A$ flips first.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item If the coin is fair, what is the probability that $A$ wins?
+    \item Suppose that $\fun{P}{\mbox{head}} = p$, not necessarily $\frac{1}{2}$. What is the probability that $A$ wins?
+    \item Show that for all $p$, $0 < p < 1$, $\fun{P}{\mbox{$A$ wins}} > \frac{1}{2}$. (Hint: Try to write $\fun{P}{\mbox{$A$ wins}}$ in terms of the events $E_1, E_2, \cdots$, where $E_i = \SETT{\mbox{head first appears on $i$th toss}}$.)
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item 
+    
+    \begin{align*}
+        \fun{P}{\mbox{$A$ wins}} &= \sum_{i=1}^{\infty} \fun{P}{\mbox{$A$ wins at $i$-th toss}} \\
+        &= \frac{1}{2} + \left(\frac{1}{2} \right)^2 \frac{1}{2} + \left(\frac{1}{2} \right)^4 \frac{1}{2} + \cdots \\
+        &= \frac{2}{3}
+    \end{align*}
+    
+    \item If $\fun{P}{\mbox{head}} = p$, then
+    
+    \begin{align*}
+        \fun{P}{\mbox{$A$ wins at $i$-th toss}} &= (1-p)^{2i-2}p
+    \end{align*}
+    Thus,
+    
+    \begin{align*}
+        \fun{P}{\mbox{$A$ wins}} &= \sum_{i=1}^{\infty} (1-p)^{2i-2}p \\
+        &= \frac{p}{1-(1-p)^2}
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        & 0 < p < 1 \\
+        \Rightarrow & -p^2 < 0 \\
+        \Rightarrow & 1-1+2p-p^2 < 2p \\
+        \Rightarrow & 1-(1-p)^2 < 2p \\
+        \Rightarrow & \frac{p}{1-(1-p)^2} > \frac{1}{2}
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.25}
+
+The Smiths have two children. At least one of them is a boy. What is the probability that both children are boys? 
+
+\begin{proof}[Solution]
+We know
+
+\begin{align*}
+    \fun{P}{\mbox{at least one child is a boy}} &= \frac{3}{4}, \\
+    \fun{P}{\mbox{both children are boys}, \mbox{\mbox{at least one child is a boy}}} &= \frac{3}{4} \cdot \frac{1}{3} \\
+                &= \frac{1}{4}.
+\end{align*}
+Therefore,
+
+\begin{align*}
+    \fun{P}{\mbox{both children are boys} \mid \mbox{\mbox{at least one child is a boy}}} &= \frac{\frac{1}{4}}{\frac{3}{4}} \\
+                      &= \frac{1}{3}.
+\end{align*}
+\end{proof}
+
+\newpage
+\section{Problem 1.26} 
+
+A fair die is cast until a 6 appears. What is the probability that it must be cast more than five times?
+
+\begin{proof}[Solution]
+Let $E_i$ be the event that 6 appears at the $i$-th cast. Then
+
+\[ \fun{P}{E_i} = \left( \frac{5}{6} \right)^{i-1} \left( \frac{1}{6} \right). \]
+The required probability is
+
+\begin{align*}
+    1 - \sum_{i=1}^5 \fun{P}{E_i} = \frac{3125}{7776}.
+\end{align*}
+\end{proof}
+
+\newpage
+\section{Problem 1.27}
+
+Verify the following identities for $n \geq 2$.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item $\sum_{k=0}^n (-1)^k \binom{n}{k} = 0$
+    \item $\sum_{k=1}^n k \binom{n}{k} = n2^{n-1}$
+    \item $\sum_{k=1}^n (-1)^{k+1} k \binom{n}{k} = 0$
+\end{enumerate}~\\
+
+\begin{proof}[Solution]~\\
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Look at the binomial expansion for $(x-1)^n$. Put $x = 1$ and the result follows.
+    
+    \item Look at the binomial expansion for $(x+1)^n$. Take derivative on both sides and the result follows from putting $x = 1$.
+    
+    \item 
+    
+    \begin{align*}
+        \sum_{k=1}^{n} (-1)^{k+1} k \binom{n}{k} &= \sum_{k=1}^n (-1)^{k+1} n \binom{n-1}{k-1} \\
+        &= n \left[ \sum_{k=1}^n (-1)^{k+1} \binom{n-1}{k-1} \right] \\
+        &= n \left[ \sum_{k=0}^{n-1} (-1)^k \binom{n-1}{k} \right] \\
+        &= 0 & \mbox{by part (a)}.
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\newpage
+\section{Problem 1.28}
+
+Prove
+
+\[ \lim_{n \rightarrow \infty} \frac{n!}{n^{n+ \frac{1}{2}} e^{-n}} = \mbox{constant}. \]
+
+(See \cite[page 40]{Berger-Casella} for the exact problem statement.)
+
+\begin{proof}[Solution]
+The average of the two intergrals
+
+\begin{align*}
+ \int_0^n \log(x) dx, \ \ \int_1^{n+1} \log(x) dx
+\end{align*}
+is given by
+
+\[ \frac{(n+1)\log(n+1) + n \log(n)}{2} \]
+\end{proof}
+
+\newpage
+\nocite{*}
+\printbibliography
+
+\end{document}

@@ -1,0 +1,403 @@
+\documentclass[12pt,letterpaper,reqno]{amsart}
+
+
+\include{Apackages} %this loads the packages
+
+
+\makeindex
+
+\author{Virgil Chan}
+\title{Casella-Berger \\ Statistical Inference Solution: \\ Chapter 3}
+\date{August 5, 2022}
+
+
+\usetikzlibrary{patterns,positioning,arrows,chains,matrix,positioning,scopes} %options for tikzpicture
+
+\addbibresource{bibliography.bib} %put your reference here
+
+
+\makeatletter
+\patchcmd{\@maketitle}
+  {\ifx\@empty\@dedicatory}
+  {\ifx\@empty\@date \else {\vskip3ex \centering\footnotesize\@date\par\vskip1ex}\fi
+   \ifx\@empty\@dedicatory}
+  {}{}
+\patchcmd{\@adminfootnotes}
+  {\ifx\@empty\@date\else \@footnotetext{\@setdate}\fi}
+  {}{}{}
+\makeatother
+
+\include{Atheoremsenvironments}
+
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+    
+\include{Acommand}
+
+\makeatletter
+\tikzset{join/.code=\tikzset{after node path={%
+\ifx\tikzchainprevious\pgfutil@empty\else(\tikzchainprevious)%
+edge[every join]#1(\tikzchaincurrent)\fi}}}
+
+\makeatother
+
+%\tikzset{>=stealth',every on chain/.append style={join},
+%        every join/.style={->}}
+
+\newlength{\parindentsave}\setlength{\parindentsave}{\parindent}
+
+\everymath{\displaystyle}
+
+\numberwithin{equation}{subsection} 
+
+\let\emptyset\varnothing
+
+\hypersetup{colorlinks,citecolor=blue,linkcolor=blue}
+
+\declaretheorem[numberwithin=section, shaded={rulecolor=black,
+rulewidth=0.5pt, bgcolor={rgb}{1,1,1}}]{Theorem}
+
+%\doublespacing
+
+\setcounter{tocdepth}{4}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Exercise 3.1}
+$X$ has pmf
+
+\[ f_X(n) = \frac{1}{N_1 - N_0 + 1} \]
+on $\mycal{X} = [N_0, N_1] \cap \D{Z}$. Therefore,
+
+\begin{align*}
+    EX &= \sum_{n= N_0}^{N_1} n f_X(n) = \frac{N_0 + N_1}{2}, \\
+       \\
+    EX^2 &=    \sum_{n= N_0}^{N_1} n^2 f_X(n) \\
+         &= \frac{1}{N_1 - N_0 + 1} \left[\frac{(2N_1 + 1)N_1(N_1 + 1)}{6} - \frac{(2N_0 - 1)(N_0 - 1)N_0}{6} \right], \\
+         & \ \ \ \ \left(\mbox{where $\sum_{k=1}^n k^2 = \frac{(2n+1)n(n+1)}{6}$.}\right) \\
+         \\
+    \Var{X} &= EX^2 - (EX)^2 \\
+            &= \frac{(N_1 - N_0)(N_1 - N_0 +2)}{12}
+\end{align*}
+
+\newpage
+\section{Exercise 3.2}
+
+Let $X$ be the number of defective parts found in $K$ samples; and $M$ be the number of defective parts in the lot.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+\item We want
+
+\[ \fun{P}{X = 0 \mid M > 5} < 0.1, \]
+where
+
+\begin{align*}
+     \fun{P}{X = 0 \mid M > 5} &= \frac{\binom{100-M}{K}}{\binom{100}{K}}.
+\end{align*}
+The probability of a defective part being included in the $K$ samples is proportional to $M$. Therefore, we may choose $M = 6$. This gives
+
+\begin{align*}
+    \fun{P}{X = 0 \mid M = 6} &= \frac{\binom{94}{K}}{\binom{100}{K}}.
+\end{align*}
+Using numerical method, we get $K \geq 32$.
+
+\item We want
+
+\[ \fun{P}{X \leq 1 \mid M = 6} < 0.1. \]
+We compute
+
+\begin{align*}
+    \fun{P}{X = 1 \mid M = 6} &= \frac{6\binom{94}{K-1}}{\binom{100}{K}}
+\end{align*}
+and get
+
+\[  \fun{P}{X \leq 1 \mid M = 6} =  \frac{\binom{94}{K}}{\binom{100}{K}} + \frac{6\binom{94}{K-1}}{\binom{100}{K}}. \] 
+Using numerical method, we find $K \geq 51$.
+\end{enumerate}
+
+\newpage
+\section{Exercise 3.3}
+
+ The entire crossing takes requires 3 seconds to execute. If the pedestrian has to wait for exactly 4 seconds before starting to cross, then the entire process takes 7 seconds to complete. Therefore, we can represent the sample space by
+ 
+ \[ S = \SET{(x_1, \cdots, x_7)}{x_i = 0, 1} \]
+ where 1 represents a car is passing.
+ 
+ Secondly, the crossing takes place at $x_7$. Therefore, we must have $x_5 = x_6 = x_7 = 0$. It follows that $x_4 = 1$, otherwise the crossing will occur before $x_7$.
+ 
+ Now, the pedestrian cannot cross at $x_3$. This means the sequence cannot start with $(0,0,0,1)$.
+ 
+ As a result, the required probability is
+ 
+ \[ \left[ 1-(1-p)^3p \right] (1-p)^3. \]
+ 
+ \newpage
+ \section{Exercise 3.4}
+ 
+ Let $X$ be the number of trials it takes to open the door.
+ 
+ \begin{enumerate}[label=(\alph*),leftmargin=*]
+     \item We have
+     
+     \begin{align*}
+         \fun{P}{X = k} &= \left( 1 - \frac{1}{n} \right)^{k-1} \frac{1}{n}
+     \end{align*}
+     for $k = 1, \cdots, n$. This is the geometric distribution, hence
+     
+     \begin{align*}
+         EX &= \frac{1}{\frac{1}{n}} \\
+            &= n.
+     \end{align*}
+     
+     \item At the $k$-th trial, we are selecting from $n-k+1$ keys. The probability of choosing the right key is then $\frac{1}{n-k+1}$. Hence,
+     
+     \begin{align*}
+         \fun{P}{X=k} &=  \left[ \prod_{i=1}^{k-1} \left( 1 - \frac{1}{n-i+1} \right) \right] \frac{1}{n-k+1} \\
+         &= \prod_{i=1}^{k-1} \frac{n-i}{n-i+1} \cdot \frac{1}{n-k+1} \\
+         &= \frac{n-k+1}{n} \cdot \frac{1}{n-k+1} \\
+         &= \frac{1}{n}.
+     \end{align*}
+     As a result,
+     
+     \begin{align*}
+         EX &= \sum_{k=1}^n \frac{k}{n} \\
+            &= \frac{n+1}{2}.
+     \end{align*}
+ \end{enumerate}
+
+\newpage
+\section{Exercise 3.5}
+
+If the new and old drugs are equally effective, then the old drug can also have 85 or more successes observed in a 100 patients trial. Let us calculate the probability for this event to happen.
+
+Let $X$ be the number of observing successes in a 100 patients trial. Then
+
+\begin{align*}
+    \fun{P}{X \geq 85} &= \sum_{k=85}^{100} \binom{100}{k}(0.8)^k (0.2)^{100-k} \\
+    &\approx 0.1285
+\end{align*}
+This means there is (approximately) a chance of 13\% for the old drug to produce the same result. Therefore, we cannot conclude the new drug is superior.
+
+\newpage
+\section{Exercise 3.6}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Binomial distribution $\binomdist{2000}{0.01}$, with
+    
+    \[ \fun{P}{X = k} = \binom{2000}{k} (0.01)^k (0.99)^{2000-k} \]
+    
+    \item
+    
+    \begin{align*}
+        \fun{P}{X < 100} &= \sum_{k=0}^{99} \binom{2000}{k}(0.01)^k (0.99)^{200-k}
+    \end{align*}
+    
+    \item We find $\fun{\min}{np, n(1-p)} = 20$, which is at least 5. Hence, the normal approximation to binomial is good. We can therefore approximate part (b) with $\normaldist{np, np(1-p)}$. As a result,
+    
+    \begin{align*}
+        \fun{P}{X < 100} &= \fun{P}{\frac{X - 20}{\sqrt{20 \cdot 0.99}} < \frac{100 - 20}{\sqrt{20 \cdot 0.99}}} \\
+        &= \fun{P}{Z < 17.98} \\
+        &\approx 1.
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 3.7}
+
+Let $X$ be the number of chocolate chips in a cookie. Then
+\[ X \sim \poissondist{\lambda}. \]
+Next,
+
+\begin{align*}
+    \fun{P}{X \geq 2} &= 1 - \fun{P}{X < 1} \\
+                      &= 1 - e^{-\lambda} - \lambda e^{-\lambda} \\
+                      &> 0.99
+\end{align*}
+So $\lambda \approx 6.64$.
+
+\newpage
+\section{Exercise 3.8}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Let $X$ be the number of people in a theatre. Then $X \sim \binomdist{1000, 0.5}$, and
+    
+    \begin{align*}
+        \fun{P}{X > N} &= \sum_{k=N+1}^{1000} \binom{1000}{k} (0.5)^k (0.5)^{1000-k} \\
+        &= (0.5)^{1000} \sum_{k=N+1}^{1000} \binom{1000}{k}
+    \end{align*}
+    Therefore,
+    
+    \[ (0.5)^{1000} \sum_{k=N+1}^{1000} \binom{1000}{k} < 0.01. \]
+    
+    \item We check $\fun{\min}{np, n(1-p)} = 500$, which is at least 5. So the normal approximation by $\normaldist{500, 250}$ is good.
+    
+    Next,
+    
+    \begin{align*}
+        \fun{P}{X > N} &= \fun{P}{\frac{X-500}{\sqrt{250}} > \frac{N-500}{\sqrt{250}}} \\
+        &= \fun{P}{Z > \frac{N-500}{\sqrt{250}}}
+    \end{align*}
+    Now, $Z \sim \normaldist{0, 1}$. By looking up the values, we see
+    
+    \begin{align*}
+        0.01 &> 0.099 \\
+             &\approx \fun{P}{Z > 2.33}
+    \end{align*}
+    So $N \approx 537$.
+\end{enumerate}
+
+\newpage
+\section{Exerise 3.9}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Let $X \sim \binomdist{60}{\frac{1}{90}}$. Then
+    
+    \begin{align*}
+        \fun{P}{X \geq 5} &= 1 - \sum_{k=0}^4 \binom{60}{k} \left( \frac{1}{90} \right)^k \left( \frac{89}{90} \right)^{60-k} \\
+        &\approx 0.000556628
+    \end{align*}
+    
+    \item Let $X$ be the number of elementary schools in the state that has at least 5 pairs of twins. Then $X \sim \binomdist{310}{0.006}$, where we rounded the probability computed in part (a).
+    
+    As a result,
+    
+    \begin{align*}
+        \fun{P}{X \geq 1} &= 1 - \fun{P}{X = 0} \\
+                          &= 1 - (0.9994)^{310} \\
+                          &= 0.169773
+    \end{align*}
+    
+    \item The probability of a state to have 5 pairs of twins in the same school is 0.17. Since there are 50 states, the probability of having at least one state to have 5 pairs of twins in the same school is
+    
+    \begin{align*}
+        1-(1-0.17)^{50} = 0.99991
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 3.10}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Trivial.
+    
+    \item Let $p$ be the probability in part (a). Then
+    
+    \begin{align*}
+        \max_{M,N} p &= \max_{M,N} \log(p)
+    \end{align*}
+    since $\log$ is injective and monotone. In particular, because $M+N = 496$, the only term depending on $M$, $N$ is the numerator. Thus
+    
+    \begin{align*}
+        \max_{M,N} \log(p) &= \max_{M,N} \log \left( \binom{N}{4} \binom{M}{2} \right) \\
+        &= \max_{4 \leq N \leq 496} \log \left( \binom{N}{4} \binom{496-N}{2} \right) \\
+        &= \max_{4 \leq N \leq 496} \log \left[ N(N-1)(N-2)(N-3)(496-N)(495-N) \right] \\
+    \end{align*}
+    Using calculus, we get $N \approx 330.834$.
+\end{enumerate}
+
+\newpage
+\section{Exercise 3.12}
+
+\begin{align*}
+    \fun{F_X}{r-1} &= \fun{P}{X \leq r-1} \\
+                     &= \fun{P}{\mbox{at most $r-1$ successes in $n$ trials}} \\
+                     &= \fun{P}{\mbox{at least $n-r+1$ failures before the $r$-th success}} \\
+                     &= \fun{P}{Y \geq n-r+1} \\
+                     &= 1- \fun{F_Y}{n-r}
+\end{align*}
+
+\newpage
+\section{Exercise 3.13}
+
+For a general random discrete variable $X$, we compute
+
+\begin{align}
+    EX_T^n &= \sum_{x = 1}^{\infty} x^n \fun{P}{X_T = x} \nonumber \\
+         &= \sum_{x = 1}^{\infty} x^n \frac{\fun{P}{X = x}}{\fun{P}{X>0}} \nonumber \\
+         &= \frac{EX^n}{\fun{P}{X>0}},
+\end{align}
+
+\begin{align}
+    \Var{X_T} &= EX_T^2 - (EX_T)^2 \nonumber \\
+              &= \frac{EX^2}{\fun{P}{X > 0}} - \frac{(EX)^2}{\fun{P}{X>0}^2} \nonumber \\
+              &= \frac{\Var{X} + \left(EX \right)^2}{\fun{P}{X>0}} - \frac{(EX)^2}{\fun{P}{X>0}^2}
+\end{align}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item If $X \sim \poissondist{\lambda}$, then $EX = \lambda$ and $\fun{P}{X>0} = 1-e^{-\lambda}$. So
+    
+    \begin{align*}
+        EX_T &= \frac{\lambda}{1 - e^{-\lambda}}, \\
+        \Var{X_T} &= \frac{\lambda^2 + \lambda}{1-e^{-\lambda}} - \frac{\lambda^2}{(1-e^{-\lambda})^2}
+    \end{align*}
+    
+    \item If $X \sim \negbinomdist{r, p}$, then
+    
+    \begin{align*}
+        \fun{P}{X>0} &= 1 - \fun{P}{X = 0} \\
+                     &= 1 - \binom{r-1}{0} p^r (1-p)^0 \\
+                     &= 1-p^r, \\
+                     \\
+        EX &= \frac{rp}{1-p}, \\
+        \\
+        \Var{X} &= \frac{rp}{(p-1)^2}
+    \end{align*}
+    Therefore,
+    
+    \begin{align*}
+        EX_T &= \frac{rp}{(1-p)(1-p^r)}, \\
+        \Var{X_T} &= -\frac{pr(p^r(1+pr)-1)}{(p^r-1)^2(p-1)^2}
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 3.14}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item
+    
+    \begin{align*}
+        \sum_{x=1}^{\infty} \fun{P}{X = x}
+        &= \sum_{x=1}^{\infty} \frac{-(1-p)^x}{x\log(p)} \\
+        &= \frac{1}{\log(p)} \sum_{x=1}^{\infty} \frac{-(1-p)^x}{x} \\
+        &= \frac{1}{\log(p)} \cdot \log(1-(1-p)) \\
+        &= 1.
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        EX &= \sum_{x = 1}^{\infty} \frac{-(1-p)^x}{\log(p)} \\
+           &= \frac{-(1-p)}{p\log(p)}, \\
+           \\
+        EX^2 &= \sum_{x=1}^{\infty} \frac{-x(1-p)^x}{\log(p)} \\
+        &= \frac{-(1-p)}{\log(p)} \sum_{x = 1}^{\infty} x(1-p)^{x-1} \\
+        &= \frac{-(1-p)}{\log(p)} \cdot \left.\Dif{}{x}\right\vert_{x = 1-p} \frac{1}{1-x} \\
+        &= \frac{-(1-p)}{p^2 \log(p)}, \\
+        \\
+        \Var{X} &= EX^2 - (EX)^2 \\
+                &= \frac{-(1-p)}{p^2 \log(p)} - \frac{(1-p)^2}{[p \log(p)]^2} \\
+                &= \frac{-(1-p)\log(p)-(1-p)^2}{[p \log(p)]^2}
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 3.17}
+
+\begin{align*}
+    EX^{\nu} &= \frac{1}{\Gamma(\alpha) \beta^{\alpha}} \myint{x^{\nu} \cdot x^{\alpha - 1} e^{-x/\beta}}{x}{0}{\infty} \\
+    &= \frac{1}{\Gamma(\alpha) \beta^{\alpha}} \myint{x^{\alpha + \nu - 1} e^{-x/\beta}}{x}{0}{\infty} \\
+    &= \frac{\Gamma(\alpha + \nu) \beta^{\alpha + \nu}}{\Gamma(\alpha) \beta^{\alpha}} \\
+    &=  \frac{\Gamma(\alpha + \nu) \beta^{\nu}}{\Gamma(\alpha)}
+\end{align*}
+
+\newpage
+\nocite{*}
+\printbibliography
+
+\end{document}

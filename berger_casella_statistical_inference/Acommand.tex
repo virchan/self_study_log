@@ -1,0 +1,638 @@
+%\BEGIN{COMMAND}
+
+%SHORT HAND NOTATION-------------------------------
+\newcommand{\D}[1]{\mathbb{#1}} %short hand mathbb command
+
+\newcommand{\Dm}[1]{\mathbbm{#1}} %mathbb for numbers
+
+\newcommand{\mycal}[1]{\mathcal{{#1}}} %short hand mathcal
+
+\newcommand{\scr}[1]{\mathscr{{#1}}} %short hand mathscr
+
+\newcommand{\ve}{\varepsilon} %short hand epsilon
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}%label equation in \align*
+
+\newcommand{\dund}[1]{\underline{\underline{{#1}}}}%Double underline
+
+\newcommand{\Frechet}{Fr\'{e}chet}%Frechet space
+
+\newcommand{\ol}[1]{\overline{{#1}}}%overline
+
+\newcommand{\ul}[1]{\underline{{#1}}}%underline
+
+\newcommand{\dul}[1]{\ul{\ul{{#1}}}}%double underline
+
+\newcommand{\Cech}{\v{C}ech} %Cech
+
+\newcommand{\Nother}{N\"{o}ther} %Nother
+
+\newcommand{\Notherian}{N\"{o}ther} %Notherian
+
+\newcommand{\wt}[1]{\widetilde{{#1}}} %short hand for \widetilde
+
+\newcommand{\fun}[2]{{#1}\! \left( {#2} \right)}%short hand for function
+
+\newcommand{\on}[1]{\operatorname{{#1}}} %short hand for \operatorname
+
+\newcommand{\Kp}[1]{K^+_{{#1}}} %short hand for plus-construction
+
+\newcommand{\Knp}[1]{K_{{#1}}} %short hand for before plus-construction
+
+\newcommand{\btimes}{\boxtimes} %short hand for box tensor
+
+\newcommand{\bplus}{\boxplus} %short hand for box sum
+
+\newcommand{\myline}{\par\noindent\rule{\textwidth}{0.4pt}} %horizontal line
+
+\newcommand{\wh}[1]{\widehat{{#1}}} %short hand for \widetilde
+
+\newcommand{\myref}[2]{\hyperref[{#2}]{{#1}~\ref{#2}}} %short hand for \hyperref
+
+\newcommand{\myeqref}[2]{\hyperref[{#2}]{{#1}~\eqref{#2}}} %short hand for \hyperref for equations
+
+%SET THEORY----------------------------------------
+\newcommand{\SET}[2]{\left\{ {#1} \ \middle| \ {#2} \right\}} %short hand notation for set
+
+\newcommand{\SETT}[1]{\left\{ {#1} \right\}} %short hand notation for set without constraint
+
+\newcommand{\floor}[1]{\left \lfloor{#1}\right \rfloor } %floor function
+
+\newcommand{\Rng}[1]{\operatorname{Rng}\left(#1\right)} %range of a function
+
+\newcommand{\id}[1]{\operatorname{id}_{{#1}}} %identity map
+
+\newcommand\restr[2]{{% we make the whole thing an ordinary symbol
+  \left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+  #1 % the function
+  \vphantom{\big|} % pretend it's a little taller at normal size
+  \right|_{#2} % this is the delimiter
+  }} %restriction of a function
+
+\newcommand{\Abs}[1]{\left\lvert{#1}\right\rvert} %absolute value
+
+\newcommand{\nonnegint}{\D{N} \cup \left\{ 0 \right\}} %Non-negative integers
+
+\newcommand{\Image}[1]{\operatorname{im}\left( {#1} \right)} %Image of a map
+
+\newcommand{\Proj}[1]{\operatorname{proj}_{{#1}}}%projection map
+
+\newcommand{\ev}[1]{\operatorname{ev}_{{#1}}}%Evaluation map
+
+\makeatletter
+\newbox\xrat@below
+\newbox\xrat@above
+\newcommand{\xrightarrowtail}[2][]{%
+  \setbox\xrat@below=\hbox{\ensuremath{\scriptstyle #1}}%
+  \setbox\xrat@above=\hbox{\ensuremath{\scriptstyle #2}}%
+  \pgfmathsetlengthmacro{\xrat@len}{max(\wd\xrat@below,\wd\xrat@above)+.6em}%
+  \mathrel{\tikz [>->,baseline=-.75ex]
+                 \draw (0,0) -- node[below=-2pt] {\box\xrat@below}
+                                node[above=-2pt] {\box\xrat@above}
+                       (\xrat@len,0) ;}}
+\makeatother %xrightarrowtail
+
+\makeatletter
+\newbox\xrat@below
+\newbox\xrat@above
+\newcommand{\xtwoheadrightarrow}[2][]{%
+  \setbox\xrat@below=\hbox{\ensuremath{\scriptstyle #1}}%
+  \setbox\xrat@above=\hbox{\ensuremath{\scriptstyle #2}}%
+  \pgfmathsetlengthmacro{\xrat@len}{max(\wd\xrat@below,\wd\xrat@above)+.6em}%
+  \mathrel{\tikz [->>,baseline=-.75ex]
+                 \draw (0,0) -- node[below=-2pt] {\box\xrat@below}
+                                node[above=-2pt] {\box\xrat@above}
+                       (\xrat@len,0) ;}}
+\makeatother %xtwoheadrightarrow
+
+\newcommand{\dom}[1]{\operatorname{dom} \left( {#1} \right)} %Domain of a function
+
+\newcommand{\codom}[1]{\operatorname{codom} \left( {#1} \right)} %Codomain of a function
+
+\newcommand{\sseq}{\subseteq} %short hand for \subseteq
+  
+%ALGEBRA-------------------------------------------
+\newcommand{\Aut}[2]{\operatorname{Aut}_{{#2}}\left({#1} \right)} %automorphism group
+
+\newcommand{\Hom}[3]{\operatorname{Hom}_{{#3}}\left({#1},{#2}\right)} %Homomorphism group
+
+\newcommand{\Char}[1]{\operatorname{char}\left( {#1} \right)} %characteristic of a ring/field
+
+\newcommand{\Rad}[1]{\operatorname{Rad}\left({#1}\right)} %radical
+
+\newcommand{\Nil}[1]{\operatorname{Nil}\left({#1}\right)} %nilradical
+
+\newcommand{\Tors}[1]{\operatorname{Tors}\left({#1} \right)} %Torsion 
+
+\newcommand{\Gal}[2]{\operatorname{Gal}\left({#1}/{#2}\right)} %Galois group
+
+\newcommand{\pid}[1]{\left\langle {#1} \right\rangle} %Principal Ideal
+
+\newcommand{\polynomial}[5]{\sum_{{#1}={#2}}^{{#3}} {#4}_{{#1}} {{#5}}^{{#1}}} %Polynomial
+
+\newcommand{\mydeg}[1]{\deg \left( {#1} \right)} %Degree
+
+\newcommand{\GL}[1]{GL \left({#1}\right)} %General linear group
+
+\newcommand{\abelian}[1]{{#1}^{ab}} %Abelianisation
+
+\newcommand{\Orb}[2]{\operatorname{Orb}_{{#1}}\left( {#2} \right)} %orbit of group action
+
+\newcommand{\Stab}[2]{\operatorname{Stab}_{{#1}}\left( {#2} \right)} %stabiliser of group action
+
+\newcommand{\GROUP}[2]{\left\langle {#1} \ \middle| \ {#2} \right\rangle} %group presentation
+
+\newcommand{\ideal}{\trianglelefteq}%normal subgroup symbol
+
+\newcommand{\properideal}{\triangleleft}%proper normal subgroup symbol
+
+\newcommand{\groupaction}[3]{{#1} \rotatebox[origin=c]{180}{$\circlearrowright$}_{{#3}} {#2}}%group action
+
+\newcommand{\SL}[1]{SL \left({#1}\right)} %special linear group
+
+\newcommand{\iso}[1]{\operatorname{iso}\left( {#1} \right)}%Group of isomorphisms
+
+\newcommand{\Gr}[1]{\operatorname{Gr}\left( {#1} \right)}%associated graded group
+
+\newcommand{\bigboxplus}{
+  \mathop{
+    \vphantom{\bigoplus} 
+    \mathchoice
+      {\vcenter{\hbox{\resizebox{\widthof{$\displaystyle\bigoplus$}}{!}{$\boxplus$}}}}
+      {\vcenter{\hbox{\resizebox{\widthof{$\bigoplus$}}{!}{$\boxplus$}}}}
+      {\vcenter{\hbox{\resizebox{\widthof{$\scriptstyle\oplus$}}{!}{$\boxplus$}}}}
+      {\vcenter{\hbox{\resizebox{\widthof{$\scriptscriptstyle\oplus$}}{!}{$\boxplus$}}}}
+  }\displaylimits 
+} %internal direct sum
+
+\newcommand{\bideg}[1]{\text{bi-deg}\left( {#1} \right)}%bi-degree
+
+\newcommand{\Stgroup}[1]{\operatorname{St}\left({#1} \right)} %Steinberg group
+
+\newcommand{\groupp}[2]{\left\langle {#1} \ \middle| \ {#2} \right\rangle} %group presentation
+
+%LINEAR ALGEBRA------------------------------------
+\newcommand{\rank}[1]{\operatorname{{rank}}\left({#1}\right)} %rank
+
+\newcommand{\diag}[1]{\operatorname{diag}\left({#1} \right)} %diagonal matrix
+
+\newcommand{\Ker}[1]{\operatorname{ker}\left({#1} \right)} %Kernel of a map
+
+\newcommand{\Tr}[1]{\operatorname{trace}\left({#1}\right)} %trace
+
+\newcommand{\mat}[4]{\left[ \begin{array}{cc}
+{#1} & {#2}  \\
+{#3} & {#4}
+\end{array} \right]} %2x2 matrix
+
+\newcommand{\Range}[1]{\operatorname{Rng}\left( {#1} \right)} %Range of a map
+
+\newcommand{\Span}[1]{\operatorname{span}\left( {#1} \right)} %span of a set
+
+\newcommand{\Null}[1]{\operatorname{null}\left({#1}\right)} %nullity
+
+\newcommand{\innerprod}[3]{\left\langle {#1}, {#2} \right\rangle_{{#3}}} %Inner product
+
+\newcommand{\colvec}[2]{\left[ \begin{array}{c}
+{#1} \\
+\vdots \\
+{#2}
+\end{array} \right]}%column vector
+
+\newcommand{\Dim}[2]{\dim_{{#2}} \left( {#1} \right)}%dimension
+
+\newcommand{\Det}[1]{\det \left( {#1} \right)}%determinant
+
+\newcommand{\coDim}[2]{\operatorname{codim}_{{#2}} \left( {#1} \right)}%codimension
+
+%COMMUTATIVE ALGEBRA AND ALGEBRAIC GEOMETRY--------
+\newcommand{\td}[1]{\operatorname{tr.deg.}\left( {#1} \right)} %transcendence degree
+
+\newcommand{\Spec}[1]{\operatorname{Spec}\left({#1}\right)} %spectrum of a ring
+
+\newcommand{\height}{\operatorname{height}} %height
+
+\newcommand{\mSpec}[1]{\operatorname{mSpec}\left( {#1}\right)} %maximal ideals of a ring
+
+\newcommand{\length}[1]{\operatorname{length}\left({#1} \right)} %length
+
+\newcommand{\Pic}[1]{\operatorname{Pic}\left({#1}\right)}  %Piccard group
+
+\newcommand{\Idem}[1]{\operatorname{Idem}\left( {#1} \right)}%Idempotent
+
+\newcommand{\sections}[1]{\Gamma\left({#1} \right)}%sections of sheaf/bundle
+
+\newcommand{\kerpre}[1]{\operatorname{ker}_{\operatorname{presheaf}}\left( {#1} \right)}%presheaf kernel
+
+\newcommand{\cokerpre}[1]{\operatorname{coker}_{\operatorname{presheaf}}\left( {#1} \right)}%presheaf cokernel
+
+\newcommand{\RES}[2]{\operatorname{res}_{{#1},{#2}}}%restriction of a presheaf
+
+%Complex Analysis----------------------------------
+
+\newcommand{\expi}[2]{e^{\frac{{#1}}{{#2}}}} %complex exponential with imaginary fraction exponent
+
+\newcommand{\Res}[2]{\operatorname{Res} \left[ {#1},{#2} \right]} %residue
+
+\newcommand{\myRe}[1]{\operatorname{Re}\left({#1} \right)} %Real part
+
+\newcommand{\myIm}[1]{\operatorname{Im}\left({#1} \right)} %Imaginary part
+
+\newcommand{\winding}[2]{\fun{\operatorname{Ind}_{{#1}}}{{#2}}}%winding number of a curve
+
+\newcommand{\polydisc}[1]{\D{D}^{{#1}}_{\operatorname{poly}}}%poly-disc
+
+\newcommand{\distbound}[1]{\partial^{\operatorname{dist}}\polydisc{{#1}}}%distinguished boundary
+
+\newcommand{\Blaschke}[1]{\fun{\operatorname{Blaschke}}{{#1}}}%Blaschke product
+
+%HOMOLOGICAL ALGEBRA AND CATEGORY THEORY-----------
+\newcommand{\Mor}[2]{\operatorname{mor}_{{#2}}\left({#1}\right)} %Morphism class
+
+\newcommand{\cat}[1]{\normalfont{\mathbf{#1}}} %notation for category
+
+\newcommand{\Tor}[3]{\operatorname{Tor}_{{#3}}\left( {#1}, {#2} \right)} %Tor functor
+\newcommand{\catset}{\operatorname{\scr{S}ets}} %category of sets
+
+\newcommand{\Ring}{\operatorname{\scr{R}ings}} %category of rings
+
+\newcommand{\Obj}[1]{\operatorname{obj}\left({#1} \right)} %Object class of category
+
+\newcommand{\Ext}[2]{\operatorname{Ext}\left( {#1}, {#2} \right)} %Ext-functor
+
+\newcommand{\coker}[1]{\operatorname{{coker}}\left( {#1} \right)} %cokernel
+
+\makeatletter
+\newcommand{\colim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font colim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\colim}[1]{%
+  \mathop{\mathpalette\colim@{}}_{{#1}}
+} %colimit
+
+\renewcommand{\varprojlim}{%
+  \mathop{\mathpalette\varlim@{\leftarrowfill@\scriptscriptstyle}}\nmlimits@
+}
+\renewcommand{\varinjlim}{%
+  \mathop{\mathpalette\varlim@{\rightarrowfill@\scriptscriptstyle}}\nmlimits@
+} %limit
+
+\newcommand{\hocolim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font hocolim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\hocolim}[1]{%
+  \mathop{\mathpalette\hocolim@{}}_{{#1}}
+}%homotopy colimit
+
+\newcommand{\holim@}[2]{%
+  \vtop{\m@th\ialign{##\cr
+    \hfil$#1\operator@font holim$\hfil\cr
+    \noalign{\nointerlineskip\kern1.5\ex@}#2\cr
+    \noalign{\nointerlineskip\kern-\ex@}\cr}}%
+}
+\newcommand{\holim}[1]{%
+  \mathop{\mathpalette\holim@{}}_{{#1}}
+}%homotopy limit
+
+\newcommand{\tensor}[3]{{#1} \otimes_{{#3}} {#2}}%tensor product
+
+\newcommand{\Eq}[1]{\operatorname{Eq} \left( {#1} \right)}%Equaliser
+
+\newcommand{\coEq}[1]{\operatorname{coEq} \left( {#1} \right)}%Coequaliser
+
+\newcommand{\catfgProj}[1]{\operatorname{\scr{P}roj}^{\operatorname{fg}}_{{#1}}} %category of finitely generated projective R-modules
+
+\newcommand{\catmodule}[1]{\operatorname{\scr{M}odule}_{{#1}}} %category of R-modules
+
+\newcommand{\catspace}{\operatorname{\scr{S}paces}} %category of spaces
+
+\newcommand{\catspectra}{\operatorname{\scr{S}pectra}} %category of spectra
+
+\newcommand{\catab}{\operatorname{\scr{A}belian}} %category of Abelian groups
+
+\newcommand{\catringoid}{\operatorname{\scr{R}ingoids}} %category of ringoids
+
+\newcommand{\catgroup}{\operatorname{\scr{G}roups}} %category of groups
+
+\newcommand{\catfgfree}[1]{\operatorname{\scr{F}ree}^{\operatorname{fg}}_{{#1}}} %category of finitely generated free R-modules
+
+\newcommand{\hormor}[1]{\operatorname{hor-mor}\left({#1}\right)} % horizontal morphism class
+
+\newcommand{\vermor}[1]{\operatorname{ver-mor}\left({#1}\right)} % vertical morphism class
+
+\newcommand{\bimor}[1]{\operatorname{bimor}\left({#1}\right)} % bi-morphism class
+
+\newcommand{\catiso}[1]{\operatorname{iso}\left({#1}\right)}%category of isomorphisms
+
+\newcommand{\SiS}[1]{\scr{S}_{{#1}}} %S-inverse-S-construction of category of isomorphisms
+
+\newcommand{\CMA}[2]{\scr{C}_{{#2}}\left( {#1} \right)} %Pedersen-Weibel category
+
+\newcommand{\catfinset}{\operatorname{\scr{F}in\scr{S}et}} %category of finite set
+
+\newcommand{\catSMC}{\operatorname{\scr{S}ym\scr{M}on\scr{C}at}} %category of symmetric monoidal categories
+
+\newcommand{\PiP}[1]{{\scr{P}_{{#1}}}} %S-inverse-S-construction of category of isomorphisms in the idempotent completion
+
+\newcommand{\catoofree}[1]{\operatorname{\scr{F}ree}^{\mathbb{N}}_{{#1}}} %category of countably generated free R-modules
+
+\newcommand{\catomegaspectra}{\operatorname{\Omega-\scr{S}pectra}} %category of omega-spectra
+
+%TOPOLOGY------------------------------------------
+\newcommand{\point}{\operatorname{point}} %point 
+
+\newcommand{\Closure}[2]{\operatorname{Closure}_{{#1}}\left({#2} \right)} %Closure
+
+\newcommand{\Int}[1]{\operatorname{Int}\left({#1} \right)} %Set of interior points
+
+\newcommand{\Bd}[1]{\partial {#1}} %Boundary of a set
+
+\newcommand{\sphere}[1]{\D{S}^{{#1}}} %sphere
+
+\newcommand{\CP}[1]{\D{C}\D{P}^{{#1}}} %complex projective spaces
+
+\newcommand{\RP}[1]{\D{R}\D{P}^{{#1}}} %real projective spaces
+
+\newcommand{\sk}[2]{{#1}^{({#2})}} %n-skeleton of a CW complex
+
+\newcommand{\simplex}[1]{\left[ {#1} \right]} %Simplex
+
+\newcommand{\commutativesquare}[8]{\begin{tikzpicture}
+  \node (A) {{#1}}; 
+  \node (B) [right=of A] {{#3}}; 
+  \node (C) [below=of A] {{#4}}; 
+  \node (D) [right=of C, below=of B] {{#6}};
+  \draw[->] (A)-- node[above] {\tiny {#2}} (B); 
+  \draw[->] (A)-- node [left] {\tiny {#7}} (C); 
+  \draw[->] (B)-- node [right] {\tiny {#8}} (D); 
+  \draw[->] (C)-- node [below] {\tiny {#5}} (D); 
+\end{tikzpicture}}%Commutative square
+
+\newcommand{\gtori}[1]{\left( \D{T}^2 \right)^{\vee {#1}}}%wedge sum of g tori
+
+\newcommand{\cupprod}[2]{{#1}\smile {#2}}%cup product
+
+\newcommand{\capprod}[2]{{#1} \frown  {#2}}%cap product
+
+\newcommand{\Map}[3]{\operatorname{Map}_{{#3}} \left( {#1}, {#2} \right)}%Mapping space
+
+\newcommand{\Loop}[1]{\Omega {#1}}%loop space
+
+\newcommand{\Suspen}[1]{\Sigma {#1}}%suspension over a space
+
+\newcommand{\Face}[2]{d_{{#1}}^{{#2}}}%face map of simplicial space
+
+\newcommand{\Degen}[2]{s_{{#1}}^{{#2}}}%degeneracy map of simplicial space
+
+\newcommand{\gsimplex}[1]{\Abs{\Delta^{#1}}}%geomtric n-simplex
+
+\newcommand{\myprod}[3]{{#1} \times_{{#3}}{{#2}}}%fibre product
+
+\newcommand{\Fr}[1]{\operatorname{Fr}\left({#1}\right)}%Frame bundle
+
+\newcommand{\Grass}[3]{\operatorname{Gr}_{{#2}}\left( \D{{#3}}^{{#1}}\right)}%Grassmannian
+
+\newcommand{\Stiefelm}[3]{V_{{#2}}\left( \D{{#3}}^{{#1}}\right)}%Stiefel Manifold
+
+\newcommand{\oStiefelm}[3]{V^o_{{#2}}\left( \D{{#3}}^{{#1}}\right)}%orthonormal Stiefel Manifold
+
+\newcommand{\homotopygrp}[2]{\pi_{{#1}} \left({#2} \right)}%homotopy group
+
+\newcommand{\homotopymap}[2]{\pi \left[ {#1}, {#2} \right]}%homotopy classes of maps
+
+\newcommand{\cohomology}[4]{H^{{#3}}_{\operatorname{{#4}}}\left({#1}\mbox{;} \ {#2} \right)}%cohomology group
+
+\newcommand{\deRham}[2]{H^{{#1}}_{\operatorname{dR}}\left({#2} \right)}%de Rham cohomology group
+
+\newcommand{\Zcohomology}[2]{H^{{#2}}\left({#1}\mbox{;} \ {\D{Z}} \right)}%Integral cohomology group
+
+\newcommand{\EG}[2]{E_{{#2}}{#1}}%universal space
+
+\newcommand{\mydu}[3]{{#1} \sqcup_{{#3}}{{#2}}}%pushout
+
+\newcommand{\normclosure}[1]{\ol{{#1}}^{\norm{\cdot}{}}} %norm closure
+
+\newcommand{\weakclosure}[1]{\ol{{#1}}^{w}} %weak closure
+
+\newcommand{\cone}[1]{\operatorname{cone}\left( {#1} \right)} %cone space
+
+\newcommand{\cylinder}[1]{\operatorname{cyl} \left( {#1} \right)} %cylinder
+
+\newcommand{\cwreplace}[1]{{#1}_{\operatorname{CW}}}%CW-replacement
+
+\newcommand{\hofib}[1]{\operatorname{hofib}\left( {#1} \right)} %homotopy fibre
+
+\newcommand{\hocofib}[1]{\operatorname{hocofib}\left( {#1} \right)} %homotopy cofibre
+
+\newcommand{\CG}[2]{\D{CG}\left( {#1}, {#2} \right)} %complex Grassmannian
+
+\newcommand{\ssphere}[1]{\check{\D{S}}^{{#1}}} %simplicial sphere
+
+\newcommand{\AHSS}[3]{\operatorname{AHSS}\left( {#1} \right)^{{#2}}_{{#3}}} %sophisticated Atiyah-Hirzebruch
+
+%CALCULUS AND ANALYSIS-----------------------------
+\newcommand{\norm}[2]{\left\lVert{#1}\right\rVert_{#2}} %norm of a vector
+
+\newcommand{\Dif}[2]{\frac{d{#1}}{d{#2}}} %derivative
+
+\newcommand{\dif}[2]{\frac{\partial {#1}}{\partial {#2}}} %partial derivative
+
+\newcommand{\Interval}[4]{ \left#1 {#2}, {#3} \right#4} %interval
+
+\newcommand{\grad}[1]{\operatorname{grad}\left({#1}\right)} %gradient
+
+\newcommand{\oball}[2]{B \left( {#1}, {#2} \right)}%open ball
+
+\newcommand{\cball}[2]{\ol{B} \left( {#1}, {#2} \right)}%closed ball
+
+\newcommand{\Lp}[2]{L^{{#1}} \left( {#2} \right)}%Lp space
+
+\newcommand{\lp}[2]{\ell^{{#1}} \left( {#2} \right)}%Lp space
+
+\newcommand{\orcom}[1]{{#1}^{\perp}}%orthogonal complement
+
+\newcommand{\myint}[4]{\int_{{#3}}^{{#4}} {#1} \ d{{#2}}}%integration
+
+\newcommand{\normop}[1]{\norm{{#1}}{op}}%operator norm
+
+\newcommand{\normHS}[1]{\norm{{#1}}{\operatorname{HS}}}%Hilbert-Schmidt norm
+
+\newcommand{\supp}[1]{\operatorname{supp}\left( {#1} \right)}%support of function
+
+\newcommand{\Fred}[1]{\operatorname{Fred}\left( {#1} \right)}%Fredholm operators
+
+\newcommand{\ind}[1]{\operatorname{ind}\left( {#1} \right)}%classical index
+
+\newcommand{\Calk}[1]{\operatorname{Calk}\left( {#1} \right)}%Calking algebra
+
+%LIE THEORY----------------------------------------
+\newcommand{\Lie}[1]{\mathfrak{{#1}}} %Lie algebra
+
+\newcommand{\commutator}[2]{\left[ {#1}, {#2} \right]}%commutator
+
+%DIFFERENTIAL GEOMETRY----------------------------
+\newcommand{\christof}[3]{\Gamma_{{#1} \hspace{0.1em} {#3}}^{\hspace{0.3em {#2}}}} %Christoffel symbol
+
+%NUMBER THEORY------------------------------------
+\newcommand{\MOD}[3]{{#1} \equiv {#2} \ \left(\operatorname{mod} \  {#3} \right)}
+
+\newcommand{\zmodp}[1]{\D{Z}/{#1}\D{Z}} %Modulo p integers
+
+\newcommand{\sign}[1]{\operatorname{sign}\left( {#1}\right)}%sign function
+
+\newcommand{\mygcd}[1]{\gcd\left( {#1} \right)} % GCD
+
+%PHYSICS----------------------------------
+\newcommand{\quantumev}[1]{\left\langle {#1} \right\rangle}%quantum expected value
+
+%RESEARCH PAPER-----------------------------------
+\newcommand{\TR}[2]{\operatorname{TR}^{#1}_{#2}} %equivariant homotopy group
+
+\newcommand{\borelH}[1]{\operatorname{H}^{{\tiny \operatorname{Borel}}}_{#1}} %Borel homology
+
+\newcommand{\simplexcat}[1]{\Delta \downarrow {#1}} %simplex category for a simplicial set X
+
+\newcommand{\GJreal}[1]{\Abs{{#1}}_{\operatorname{GJ}}} %Goerss-Jardine realisation for a simplicial set
+
+\newcommand{\externalprod}[2]{{#1} \widetilde{\times} {#2}} %external product of two bi-simplicial sets
+
+\newcommand{\fullreal}[1]{{\Abs{#1}}_{\operatorname{full}}} %full realisation of a bi-simplicial set
+
+\newcommand{\diagreal}[1]{\Abs{{#1}}_{\operatorname{diag}}} %diagonal realisation of bi-simplicial set
+
+\newcommand{\cofib}[2]{{#1} \rightarrowtail {#2}} %cofibration
+
+\newcommand{\simp}[1]{\operatorname{simp}\left({#1} \right)}%Waldhausen's simp functor
+
+\newcommand{\cofseq}[3]{{#1} \rightarrowtail {#2} \twoheadrightarrow {#3}}%Cofibration sequence
+
+\newcommand{\THH}[2]{\operatorname{THH}\left( {#1}\right)_{{#2}}} %Topological Hochschild Homology
+
+\newcommand{\assem}[1]{\alpha_{{#1}}}%assembly map
+
+\newcommand{\Wh}[2]{\operatorname{Wh}_{{#2}}\left( {#1} \right)}%Whitehead group
+
+\newcommand{\Zariskicohomology}[3]{H^{{#3}}_{\textrm{\tiny Zariski}}\left({#1} \mbox{;} \ {#2} \right)}%Zariski cohomology group
+
+\newcommand{\etalecohomology}[3]{H^{{#3}}_{\textrm{\tiny \'{e}t}}\left({#1} \mbox{;} \ {#2} \right)}%etale cohomology group
+
+\newcommand{\trivialcofib}{\mycal{C} \cap \mycal{W}} %trivial cofibration
+
+\newcommand{\trivialfib}{\mycal{F} \cap \mycal{W}} %trivial fibration
+
+\newcommand{\RamPM}[1]{\dul{P}\left( {#1} \right)}%Ramras' Category of Projective Modules
+
+\newcommand{\Qcon}[1]{Q \left({#1} \right)} %Q-construction
+
+\newcommand{\admmor}[5]{\begin{tikzpicture}
+  \node (A) {${#1}$}; 
+  \node (B) [right= of A] {${#2}$};
+  \node (C) [right= of B] {${#3}$};
+  \draw[->>] (B)--node[above] {\small ${#4}$} (A);
+  \draw[>->] (B)--node[above] {\small ${#5}$} (C);
+\end{tikzpicture}} %morphisms in Q-construction
+
+\newcommand{\Lodayf}[4]{f^{{#1},{#2}}_{{#3},{#4}}}%Loday's f map
+
+\newcommand{\BGL}[1]{BGL \left({#1}\right)} %Classifying space of GL
+
+\newcommand{\BGLp}[1]{\fun{BGL}{{#1}}^{+}} %Plus construction
+
+\newcommand{\Lodaym}[4]{\gamma^{{#1},{#2}}_{{#3},{#4}}}%Loday's multiplication map
+
+\newcommand{\Lodaymh}[4]{\widehat{\gamma}^{{#1},{#2}}_{{#3},{#4}}}%Loday's multiplication map on smash product
+
+\newcommand{\KDL}[1]{K^{\operatorname{DL}}\left( {#1} \right)}%Davis-Luck K-theory spectrum
+
+\newcommand{\Orcat}[1]{\operatorname{Or}\left( {#1} \right)}%orbit category
+
+\newcommand{\actgroupoid}[2]{{#1}\mathsmaller{\int} {#2}}%action groupoid, need \usepackage{relsize}
+
+\newcommand{\twist}[2]{\operatorname{twist}_{{#1},{#2}}} %twist map
+
+\newcommand{\Lodayproda}[2]{ {#1} \ast_{\operatorname{Loday}}{#2}} %Loday product \ast
+
+\newcommand{\Lodayprodb}[2]{ {#1}  \bigstar  {#2}} %Loday product \ast
+
+\newcommand{\KGW}[1]{\mathbb{K}^{\operatorname{GW}}_{{#1}}}%Gersten-Wagoner K-theory spectrum
+
+\newcommand{\Kfree}[1]{\mathbb{K}^{\operatorname{free}}_{{#1}}}%Free K-theory spectrum
+
+\newcommand{\HH}[2]{\operatorname{{\it HH}}_{{#1}} \left( {#2} \right)} %Hochschild homology 
+
+\newcommand{\Stsym}[2]{ \left\{ {#1}, {#2} \right\}_{\mathrm{St}}}%Steinberg Symbol
+
+\newcommand{\Ncyc}[2]{N^{\operatorname{cyc}}_{{#2}} \left( {#1} \right)} %cyclic bar construction
+
+\newcommand{\Lodaya}{\alpha_{\operatorname{\tiny Loday}}} %Loday assembly
+
+\newcommand{\Walda}{\alpha_{\operatorname{\tiny Wald}}} %Waldhausen assembly
+
+\newcommand{\Lodayp}{\gamma_{\operatorname{\tiny Loday}}} %Loday pairing
+
+\newcommand{\Waldp}{\gamma_{\operatorname{\tiny Wald}}} %Waldhausen pairing
+
+\newcommand{\Weibelp}{\gamma_{\operatorname{\tiny Weibel}}} %Weibel pairing
+
+\newcommand{\freep}{\gamma_{\operatorname{\tiny free}}} %pairing for free modules
+
+\newcommand{\WWa}{\alpha_{\operatorname{\tiny WW}}} %Weiss-Williams assembly
+
+\newcommand{\KQ}[1]{\mathbb{K}^{Q}_{{#1}}}% K-theory spectrum in terms of Q-construction (do not confuse with the double Q-construction)
+
+\newcommand{\kgw}[1]{\Bbbk^{\operatorname{gw}}_{{#1}}}%Gersten-Wagoner K-theory spectrum without the K0-factor
+
+\newcommand{\WhG}[2]{\operatorname{Wh}_{{#2}} \left( {#1} \right)}
+
+\newcommand{\KKfree}[1]{K^{\operatorname{free}}_{{#1}}}%Free K-theory space
+
+\newcommand{\KPW}[1]{\mathbb{K}^{\operatorname{PW}}_{{#1}}}%Pedersen-Weibel K-theory spectrum
+
+\newcommand{\Ksmc}[1]{K^{\Box}_{{#1}}}%K-theory space of a symmetric monoidal category
+
+\newcommand{\freea}{\alpha_{\operatorname{\tiny free}}} %free assembly
+
+\newcommand{\Kproj}[1]{\mathbb{K}^{\operatorname{proj}}_{{#1}}}%Idempotent K-theory spectrum
+
+\newcommand{\projp}{\gamma_{\operatorname{\tiny proj}}} %pairing for projective modules
+
+\newcommand{\proja}{\alpha_{\operatorname{\tiny proj}}} %projective assembly
+
+\newcommand{\freestar}{\star_{\operatorname{free}}} %the multiplication map with respect to \freep
+
+\newcommand{\Kahlerdiff}[3]{\Omega^{{#1}}_{\left. {#2} \middle| {#3} \right.}} %Kahler differentials
+
+\newcommand{\naivep}{\gamma_{\operatorname{\tiny naive}}} %naive pairing
+
+\newcommand{\naivestar}{\star_{\operatorname{naive}}} %the multiplication map with respect to \naivep
+
+\newcommand{\naivea}{\alpha_{\operatorname{\tiny naive}}} %naive assembly
+
+%STATISTICS-------------------------------
+\newcommand{\Var}[1]{\operatorname{Var}\left( {#1} \right)} % variance
+
+\newcommand{\binomdist}[1]{\operatorname{Binomial}\left( {#1}\right)} % Binomial distribution
+
+\newcommand{\negbinomdist}[1]{\operatorname{NegBinomial}\left( {#1} \right)} % Negative Binomial distribution
+
+\newcommand{\normaldist}[1]{\operatorname{Normal}\left( {#1} \right)} % Normal distribution
+
+\newcommand{\poissondist}[1]{\operatorname{Poisson}\left( {#1} \right)} % Poisson distribution
+
+\newcommand{\uniformdist}[1]{\operatorname{Uniform}\left( {#1} \right)} % Poisson distribution
+
+\newcommand{\geometricdist}[1]{\operatorname{Geometric}\left( {#1} \right)} % Geometric distribution
+
+\newcommand{\conditbar}[2]{ \left. {#1} \middle| {#2} \right.} % conditional bar
+
+\newcommand{\gammadist}[1]{\operatorname{Gamma}\left( {#1} \right)} % Gamma distribution
+
+\newcommand{\betadist}[1]{\operatorname{Beta}\left( {#1} \right)} % Beta distribution
+
+%\END{COMMAND}

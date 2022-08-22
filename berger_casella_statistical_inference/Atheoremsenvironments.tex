@@ -1,0 +1,59 @@
+\makeatletter
+\xpatchcmd{\endmdframed}
+  {\aftergroup\endmdf@trivlist\color@endgroup}
+  {\endmdf@trivlist\color@endgroup\@doendpe}
+  {}{}
+\makeatother
+%\topsep
+\newtheoremstyle{break}
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\it}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {}% Punctuation after theorem head
+  {\topsep}% Space after theorem head, ' ', or \newline
+  {\thmname{#1}\thmnumber{ #2} \thmnote{(#3)}}% Theorem head spec (can be left empty, meaning `normal')
+
+\mdfdefinestyle{box}{
+     linecolor=white,
+    skipabove=\topsep,
+    skipbelow=\topsep,
+    innerbottommargin=\topsep,
+}  %
+
+\theoremstyle{break}
+\newmdtheoremenv[style=box]{theorem}{Theorem}[section]
+\newmdtheoremenv[style=box]{lemma}[theorem]{Lemma}
+\newmdtheoremenv[style=box]{proposition}[theorem]{Proposition}
+\newmdtheoremenv[style=box]{corollary}[theorem]{Corollary}
+\newmdtheoremenv[style=box]{definition}[theorem]{Definition}
+\newmdtheoremenv[style=box]{addendum}[theorem]{Addendum}
+\newmdtheoremenv[style=box]{conjecture}[theorem]{Conjecture}
+\newmdtheoremenv[style=box]{question}[theorem]{Question}
+\newmdtheoremenv[style=box]{condit}[theorem]{Condition}
+
+\makeatletter
+\def\th@plain{%
+  \thm@notefont{}% same as heading font
+  \normalfont % body font
+}
+\def\th@definition{%
+  \thm@notefont{}% same as heading font
+  \normalfont % body font
+}
+\makeatother
+
+\newtheoremstyle{exampstyle}
+{\topsep} % Space above
+{\topsep} % Space below
+{} % Body font
+{} % Indent amount
+{\bfseries} % Theorem head font
+{} % Punctuation after theorem head
+{\topsep} % Space after theorem head
+{\thmname{#1}\thmnumber{ #2} \thmnote{(#3)}} % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{exampstyle}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
