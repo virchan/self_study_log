@@ -1,0 +1,469 @@
+\documentclass[12pt,letterpaper,reqno]{amsart}
+
+
+\include{Apackages} %this loads the packages
+
+
+\makeindex
+
+\author{Virgil Chan}
+\title{Casella-Berger \\ Statistical Inference Solution: \\ Chapter 5}
+\date{August 30, 2022}
+
+
+\usetikzlibrary{patterns,positioning,arrows,chains,matrix,positioning,scopes} %options for tikzpicture
+
+\addbibresource{bibliography.bib} %put your reference here
+
+
+\makeatletter
+\patchcmd{\@maketitle}
+  {\ifx\@empty\@dedicatory}
+  {\ifx\@empty\@date \else {\vskip3ex \centering\footnotesize\@date\par\vskip1ex}\fi
+   \ifx\@empty\@dedicatory}
+  {}{}
+\patchcmd{\@adminfootnotes}
+  {\ifx\@empty\@date\else \@footnotetext{\@setdate}\fi}
+  {}{}{}
+\makeatother
+
+\include{Atheoremsenvironments}
+
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+    
+\include{Acommand}
+
+\makeatletter
+\tikzset{join/.code=\tikzset{after node path={%
+\ifx\tikzchainprevious\pgfutil@empty\else(\tikzchainprevious)%
+edge[every join]#1(\tikzchaincurrent)\fi}}}
+
+\makeatother
+
+%\tikzset{>=stealth',every on chain/.append style={join},
+%        every join/.style={->}}
+
+\newlength{\parindentsave}\setlength{\parindentsave}{\parindent}
+
+\everymath{\displaystyle}
+
+\numberwithin{equation}{subsection} 
+
+\let\emptyset\varnothing
+
+\hypersetup{colorlinks,citecolor=blue,linkcolor=blue}
+
+\declaretheorem[numberwithin=section, shaded={rulecolor=black,
+rulewidth=0.5pt, bgcolor={rgb}{1,1,1}}]{Theorem}
+
+%\doublespacing
+
+\setcounter{tocdepth}{4}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Exercise 5.1}
+
+Let $X_n$ be the number of blind people in a sample of size $n$. Then $X \sim \binomdist{n, 0.01}$. As a result,
+
+\begin{align*}
+    0.95 & \leq \fun{P}{\mbox{the sample contains a blind people}} \\
+    &= \fun{P}{X > 0} \\
+    &= 1 - \fun{P}{X = 0} \\
+    &= 1 - 0.99^n,
+\end{align*}
+or equivalently,
+
+\begin{align*}
+    n &\geq  \frac{\fun{\log}{0.05}}{\fun{\log}{0.99}} \\
+    &\approx 298.073.
+\end{align*}
+We need a sample size of at least 299 people.
+
+\newpage
+\section{Exercise 5.2}
+
+Let $K$ be the number of years until $X_1$ is exceeded for the first time.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item
+    
+    \begin{align*}
+        \fun{P}{K = k} &= \fun{P}{\mbox{$X_{k} > X_1$, $X_i \leq X_1$ for all $1 < i < k$}} \\
+        &= \myint{\fun{P}{\mbox{$X_1 = x$, $X_{k} > x$, $X_i \leq x$ for all $1 < i < k$}}}{x}{\D{R}}{} \\
+        &= \myint{\fun{P}{\conditbar{\mbox{$X_{k} > x$, $X_i \leq x$ for all $1 < i < k$}}{X_1 = x}} \cdot \fun{P}{X_1 = x}}{x}{\D{R}}{} \\
+        &= \myint{\fun{P}{X_k > x} \cdot \prod_{i=2}^{k-1} \fun{P}{X_i \leq x} \cdot \fun{P}{X_1 = x}}{x}{\D{R}}{} \\
+        &= \myint{ \left[ 1 - \fun{F}{x}\right] \cdot \prod_{i=2}^{k-1} \fun{F}{x} \cdot \fun{f}{x}}{x}{\D{R}}{} \\
+        &= \myint{\fun{F}{x}^{k-2} \fun{f}{x}}{x}{\D{R}}{} - \myint{\fun{F}{x}^{k-1} \fun{f}{x}}{x}{\D{R}}{} \\
+        &= \left. \frac{\fun{F}{x}^{k-1}}{k-1} \right\vert_{x=-\infty}^{x = \infty} - \left. \frac{\fun{F}{x}^{k}}{k} \right\vert_{x=-\infty}^{x = \infty} \\
+        &= \frac{1}{k-1} - \frac{1}{k} \\
+        &= \frac{1}{k(k-1)}
+    \end{align*}
+    
+    \item
+    
+    \begin{align*}
+        ET &= \sum_{k} k \cdot \frac{1}{k(k-1)} \\
+        &= \sum_{k} \frac{1}{k-1} \\
+        &= \infty
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 5.3}
+
+In other words,
+\[ Y_i \sim \bernoullidist{p}, \]
+where $p = \fun{P}{X_i > \mu}$. The probabilities are the same for all $i$ because of the iid assumption on $X_i$'s. This iid assumption, together with the definition of $Y_i$, imply that $Y_i$'s are independent as well. Therefore,
+
+\begin{align*}
+    \sum_{i=1}^n Y_i &\sim \sum_{i=1}^n \bernoullidist{p} \\
+    &\sim \binomdist{n, p}
+\end{align*}
+
+\newpage
+\section{Exercise 5.4}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Let $\sigma$ be a permutation on $k$ objects for $k \leq n$. Then
+    
+    \begin{align*}
+        \fun{P}{X_1 = x_{\fun{\sigma}{1}}, \cdots, X_k = x_{\fun{\sigma}{k}}}
+        &= \myint{\fun{P}{\conditbar{X_1 = x_{\fun{\sigma}{1}}, \cdots, X_k = x_{\fun{\sigma}{k}}}{P=p}} \cdot \fun{f_P}{p}}{p}{0}{1} \\
+        &= \myint{\prod_{i=1}^k \fun{P}{\conditbar{X_i = x_{\fun{\sigma}{i}}}{P=p}} \cdot 1}{p}{0}{1} \\
+        & \ \ \ \ \left( \mbox{$\conditbar{X_i}{P}$'s are iid} \right) \\
+        &= \myint{\prod_{i=1}^k p^{x_{\fun{\sigma}{i}}} (1-p)^{1-x_{\fun{\sigma}{i}}}}{p}{0}{1} \\
+        &= \myint{p^{\displaystyle \sum_{i=1}^k x_{\fun{\sigma}{i}}} (1-p)^{\displaystyle k - \sum_{i=1}^k x_{\fun{\sigma}{i}}}}{p}{0}{1} \\
+        &= \myint{p^{\displaystyle \sum_{i=1}^k x_{i}} (1-p)^{\displaystyle k - \sum_{i=1}^k x_{i}}}{p}{0}{1} \\
+        &= \fun{P}{X_1 = x_1, \cdots, X_k = x_k} \\
+        &= \myint{p^t(1-p)^{k-t}}{p}{0}{1} \\
+        & \ \ \ \ \left(\mbox{where $t = \sum_{i=1}^k x_i$} \right) \\
+        &= \frac{\fun{\Gamma}{t+1} \cdot \fun{\Gamma}{k-t+1}}{\fun{\Gamma}{k+2}} \\
+        &= \frac{t!(k-t)!}{(k+1)!}
+    \end{align*}
+    
+    \item We compute
+    
+    \begin{align*}
+        \prod_{i=1}^n \fun{P}{X_i = x_i} &= \prod_{i=1}^n \myint{\fun{P}{\conditbar{X_i = x_i}{P=p}} \cdot \fun{f_P}{p}}{p}{0}{1} \\
+        &= \prod_{i=1}^n \myint{p^{x_i} (1-p)^{1-x_i}}{p}{0}{1},
+    \end{align*}
+    which is not the same as we computed in part (a) for $k=n$.
+\end{enumerate}
+
+\newpage
+\section{Exercise 5.5}
+
+Let $Y = \sum_{i=1}^n X_i$, then $Y = n \hat{X}$. Thus
+
+\begin{align*}
+    \fun{f_{\hat{X}}}{x} &= \fun{f_Y}{x^{-1}(y)} \cdot \Abs{\Dif{x}{y}} \\
+    &= n \cdot \fun{f_Y}{nx}
+\end{align*}
+
+\newpage
+\section{Exercise 5.6}
+
+The problem statement has a typo: it should be (5.2.9) instead.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+
+\item Let $Z = X-Y$ and $W = X$. Then
+
+\begin{align*}
+    \fun{f_{Z,W}}{z,w} &= \fun{f_{X,Y}}{\fun{x}{z,w}, \fun{y}{z,w}} \cdot \left\vert \begin{array}{cc}
+         \dif{x}{z} & \dif{x}{w} \\
+         \dif{y}{z} & \dif{y}{w}
+    \end{array} \right\vert \\
+    &= \fun{f_{X,Y}}{w, w-z} \cdot \left\vert \begin{array}{cc}
+         0 & 1 \\
+         -1 & 1
+    \end{array} \right\vert \\
+    &= \fun{f_X}{w} \fun{f_Y}{w-z}
+\end{align*}
+As a result,
+
+\begin{align*}
+    \fun{f_Z}{z} &= \myint{\fun{f_{Z,W}}{z,w}}{w}{\mycal{W}}{} \\
+    &= \myint{\fun{f_X}{w} \cdot \fun{f_Y}{w-z}}{w}{\mycal{W}}{}.
+\end{align*}
+
+\item Let $Z = XY$ and $W = X$. Then
+
+\begin{align*}
+    \fun{f_{Z,W}}{z,w} &= \fun{f_{X,Y}}{\fun{x}{z,w}, \fun{y}{z,w}} \cdot \left\vert \begin{array}{cc}
+         \dif{x}{z} & \dif{x}{w} \\
+         \dif{y}{z} & \dif{y}{w}
+    \end{array} \right\vert \\
+    &= \fun{f_{X,Y}}{w, \frac{z}{w}} \cdot \Abs{\frac{1}{w}} \\
+    &= \Abs{\frac{1}{w}} \fun{f_X}{w} \fun{f_Y}{\frac{z}{w}}.
+\end{align*}
+Therefore,
+
+\begin{align*}
+    \fun{f_Z}{z} &= \myint{\fun{f_{Z,W}}{z,w}}{w}{\mycal{W}}{} \\
+    &= \myint{\fun{f_{Z,W}}{z,w}}{w}{\mycal{W}}{} \\
+    &= \myint{\Abs{\frac{1}{w}} \fun{f_X}{w} \fun{f_Y}{\frac{z}{w}}}{w}{\mycal{W}}{}
+\end{align*}
+
+\item Let $Z = X/Y$ and $W = X$. Then
+
+\begin{align*}
+    \fun{f_Z}{z} &= \myint{\fun{f_{Z,W}}{z,w}}{w}{\mycal{W}}{} \\
+    &= \myint{\fun{f_{X,Y}}{\fun{x}{z,w}, \fun{y}{z,w}} \cdot \left\vert \begin{array}{cc}
+         \dif{x}{z} & \dif{x}{w} \\
+         \dif{y}{z} & \dif{y}{w}
+    \end{array} \right\vert}{w}{\mycal{W}}{} \\
+    &= \myint{\Abs{\frac{w}{z^2}}\fun{f_{X,Y}}{w, \frac{w}{z}}}{w}{\mycal{W}}{} \\
+    &= \myint{\Abs{\frac{w}{z^2}} \fun{f_X}{w} \fun{f_Y}{\frac{w}{z}}}{w}{\mycal{W}}{}
+\end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 5.7}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item We have
+    
+    \begin{align*}
+        &\frac{1}{1+(w/\sigma)^2} \cdot \frac{1}{1+((z-w)/\tau)^2} \equiv \frac{Aw}{1+(w/\sigma)^2} + \frac{B}{1+(w/\sigma)^2} \\
+        & \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  - \frac{Cw}{1+((z-w)/\tau)^2} -  \frac{D}{1+((z-w)/\tau)^2} \\
+        \iff & 1 \equiv \left[  B \left( 1 + \frac{z^2}{\tau^2} \right) - D \right] + \left[ A \left(1 + \frac{z^2}{\tau^2} \right) - B \left( \frac{2z}{\tau^2} \right) -C \right] w \\
+        & \ \ \ \ \left[ A \left(\frac{-2z}{\tau^2} \right) + B \left( \frac{1}{\tau^2} \right) + D \left( \frac{-1}{\sigma^2} \right) \right] w^2 + \left[ A \left(\frac{1}{\tau^2}\right) + C \left( \frac{-1}{\sigma^2} \right) \right] w^3.
+    \end{align*}
+    Comparing coefficients of $w$ gives the following system
+    
+    \[ \left\{ \begin{array}{rcl}
+         A \left(\frac{1}{\tau^2}\right) + C \left( \frac{-1}{\sigma^2} \right) &= & 0  \\
+         A \left(\frac{-2z}{\tau^2} \right) + B \left( \frac{1}{\tau^2} \right) + D \left( \frac{-1}{\sigma^2} \right) &= & 0 \\
+         A \left(1 + \frac{z^2}{\tau^2} \right) - B \left( \frac{2z}{\tau^2} \right) -C &= & 0 \\
+         B \left( 1 + \frac{z^2}{\tau^2} \right) - D &= & 1
+    \end{array} \right. \]
+    of equations with unknowns $A$, $B$, $C$, $D$. Solving this gives
+    
+    \[ \left\{ \begin{array}{rcl}
+         A &= & \frac{2z \tau^2}{\mycal{D}} \\
+         B &= & \frac{\tau^2 \left( z^2 - \sigma^2 + \tau^2 \right)}{\mycal{D}} \\
+         C &= & \frac{2z \sigma^2}{\mycal{D}} \\
+         D &= & \frac{\sigma^2 \left( -3z^2 - \sigma^2 + \tau^2 \right)}{\mycal{D}}
+    \end{array} \right. \]
+    for which
+    
+    \[ \mycal{D} = (z^2 + \sigma^2)^2 + 2(z-\sigma)(z+\sigma)\tau^2 + \tau^4. \]
+\end{enumerate}
+
+\newpage
+\section{Exercise 5.8}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item The desired result follows from
+    
+    \begin{align*}
+        2n \sum_{i=1}^n \left( X_i - \ol{X} \right)^2 &= 2n \sum_{i=1}^n \left( X_i - \frac{1}{n} \sum_{j=1}^n X_j \right)^2 \\
+        &= 2n \sum_{i=1}^n \left[ X_i^2 - \frac{2}{n} X_i \sum_{j=1}^n X_j + \frac{1}{n^2} \left( \sum_{j=1}^n X_j \right)^2 \right] \\
+        &= 2n \left[ \sum_{i=1}^n X_i^2 - \frac{2}{n} \sum_{i=1}^n \sum_{j=1}^n X_i X_J + \frac{1}{n} \left( \sum_{j=1}^n X_j \right)^2 \right] \\
+        &= 2n \left[ \sum_{i=1}^n X_i^2 - \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^n X_i X_J \right] \\
+        &= 2n \sum_{i=1}^n X_i^2 - 2 \sum_{i=1}^n \sum_{j=1}^n X_i X_j \\
+        &= \sum_{i=1} \sum_{j=1} \left( X_i - X_j \right)^2.
+    \end{align*}
+    
+    \item We first compute
+    
+    \begin{align*}
+        \fun{E}{S^2} &= \fun{E}{ \frac{1}{2n(n-1)} \sum_{i=1}^n \sum_{j=1}^n \left( X_i - X_j \right)^2} \\
+        &= \frac{1}{2n(n-1)} \sum_{i=1}^n \sum_{j=1}^n \fun{E}{X_i - X_j}^2 \\
+        &= \frac{1}{2n(n-1)} \sum_{i=1}^n \sum_{j=1}^n \fun{E}{X_i - \theta_1 - X_j + \theta_1}^2 \\
+        &= \frac{1}{2n(n-1)} \sum_{i=1}^n \sum_{j=1}^n \fun{E}{X_i - \theta_1}^2 - 2 \fun{E}{\left( X_i - \theta_1 \right) \left( X_j - \theta_1 \right)} + \fun{E}{X_j - \theta_1}^2 \\
+        &= \frac{1}{2n(n-1)} \sum_{i \not= j} \fun{E}{X_i - \theta_1}^2 + \fun{E}{X_j - \theta_1}^2 \\
+        &= \frac{1}{2n(n-1)} \cdot n(n-1) \cdot 2\theta_2 \\
+        &= \theta_2.
+    \end{align*}
+    Then we get
+    
+    \begin{align*}
+        \fun{E}{S^4} &= \left[ \frac{1}{2n(n-1)} \right]^2 \sum_{i,j,k, \ell=1}^n \fun{E}{(X_i - X_j)^2 (X_k - X_{\ell})^2} \\
+        &= \left[ \frac{1}{2n(n-1)} \right]^2 \sum_{i,j,k, \ell=1}^n \fun{E}{(X_i - \theta_1 -  X_j + \theta_1)^2 (X_k - \theta_1 -  X_{\ell} + \theta_1)^2} \\
+        \\
+        &= \left[ \frac{1}{2n(n-1)} \right]^2 \cdot \left[ \sum_{i,j,k,\ell=1}^n \fun{E}{(X_i - \theta_1)^2 (X_j - \theta_1)^2} + \fun{E}{(X_i - \theta_1)^2 (X_{\ell} - \theta_1)^2}  \right. \\
+        & \hspace{4.5cm} + \fun{E}{(X_j - \theta_1)^2 (X_{k} - \theta_1)^2} + \fun{E}{(X_j - \theta_1)^2 (X_{\ell} - \theta_1)^2} \\
+        \\
+        & \hspace{3cm} - 2 \sum_{i,j,k,\ell = 1}^n \fun{E}{(X_i - \theta_1)^2(X_k-\theta_1)(X_{\ell}-\theta_1)} + \fun{E}{(X_j - \theta_1)^2(X_k-\theta_1)(X_{\ell}-\theta_1)} \\
+        & \hspace{4.5cm} + \fun{E}{(X_k - \theta_1)^2(X_i-\theta_1)(X_{j}-\theta_1)} + \fun{E}{(X_{\ell} - \theta_1)^2(X_i-\theta_1)(X_{j}-\theta_1)} \\
+        \\
+        & \hspace{3cm} \left. + 4 \sum_{i,j,k,\ell=1}^n \fun{E}{(X_i-\theta_1)(X_j-\theta_1)(X_k-\theta_1)(X_{\ell}-\theta_1)} \right] \\
+        \\
+        &= \left[ \frac{1}{2n(n-1)} \right]^2 \cdot \left[ 4 \sum_{\substack{i \not=j \\
+        k \not= \ell \\
+        i = k}} E(X_i - \theta_1)^4 + 4 \sum_{\substack{i \not=j \\
+        k \not= \ell \\
+        i \not= k}} E(X_i - \theta_1)^2(X_j - \theta_1)^2 \right. \\
+        \\
+        & \hspace{4cm} -0 \\
+        \\
+        &\hspace{4cm} \left. +8 \sum_{\substack{i \not= j, \\
+        k \not= \ell \\
+        (i,j) = (k, \ell)}} E(X_i - \theta_1)^2 (X_j - \theta_1)^2  \right] \\
+        &= \left[ \frac{1}{2n(n-1)} \right]^2 \cdot \left[4 n(n-1)^2\theta_4 + 4n(n-1)^3 \theta_2^2 + 8n(n-1)\theta_2^2 \right] \\
+        &= \frac{1}{n} \theta_4 + \frac{n^2-2n+3}{n(n-1)} \theta_2^2.
+    \end{align*}
+    Therefore,
+    
+    \begin{align*}
+        \Var{S^2} &= ES^4 - (ES^2)^2 \\
+        &= \frac{1}{n} \theta_4 + \frac{n^2-2n+3}{n(n-1)} \theta_2^2 - \theta_2^2 \\
+        &= \frac{1}{n} \left(\theta_4 + \frac{n-3}{n-1} \theta_2^2 \right)
+    \end{align*}
+    
+    \item First assume $\theta_1 = 0$. Then
+    
+    \begin{align*}
+        \Cov{\ol{X}, S^2} &= \fun{E}{\ol{X} S^2} - \fun{E}{\ol{X}} \fun{E}{S^2} \\
+        &= \fun{E}{\ol{X} S^2} - \theta_1 \fun{E}{S^2} \\
+        &= \fun{E}{\ol{X} S^2} \\
+        &= \fun{E}{\left( \frac{1}{n} \sum_{i=1}^n X_i \right) \cdot \left(\frac{1}{2n(n-1)} \sum_{i=1}^n \sum_{j=1}^n \left( X_i - X_j \right)^2 \right)} \\
+        &= \frac{1}{2n^2(n-1)} \sum_{i,j,k=1}^n \fun{E}{X_i(X_j-X_k)^2} \\
+        &= \frac{1}{2n^2(n-1)} \sum_{i,j,k=1}^n \fun{E}{X_i X_j^2} - 2 \fun{E}{X_i X_j X_k} + \fun{E}{X_i X_k^2} \\
+        &= \frac{1}{2n^2(n-1)} \left[ n^2 \fun{E}{X_i^3} + n^2(n-1)\fun{E}{X_i X_j^2} \right. \\
+        & \hspace{3cm} -2n(n-1)(n-2)\fun{E}{X_i X_j X_k} + 3n(n-1) \fun{E}{X_i X_j^2} + n \fun{E}{X_i^3} \\
+        & \hspace{3cm} \left. n^2 \fun{E}{X_i^3} + n^2(n-1) \fun{E}{X_i X_k^2} \right] \\
+        &= \frac{1}{2n^2(n-1)} \left[ 2n(n-1) \fun{E}{X_i^3} \right. \\
+        & \hspace{3cm} \left. + 2n(n-1)(n-3) \fun{E}{X_i X_j^2} - 2n(n-1)(n-2) \fun{E}{X_i X_j X_k} \right] \\
+        &= \frac{1}{2n^2(n-1)} \cdot 2n(n-1) \fun{E}{X_i^3} \\
+        &= \frac{\theta_3}{n}.
+    \end{align*}
+    For general $\theta_1$, we observe that
+    
+    \begin{align*}
+        \Cov{X, Y} &= \fun{E}{(X-EX)(Y-EY)} \\
+                   &= \fun{E}{(X-EX-0)(Y-EY)} \\
+                   &= \fun{E}{(X-EX-E(X-EX))(Y-EY)} \\
+                   &= \Cov{X-EX, Y}.
+    \end{align*}
+    In other words, by replacing $X_i$ by $X_i - \theta_1$, we return to the case $\theta_1 = 0$. Moreover, this replacement preserves covariance. Therefore, $\Cov{\ol{X}, S^2} = \frac{\theta_3}{n}$, and it vanishes iff $\theta_1$ vanishes.
+\end{enumerate}
+
+\newpage
+\section{Exercise 5.10}
+
+See \cite[Theorem 5.3.1 on page 218]{Berger-Casella}.
+
+    
+    \begin{align*}
+        \theta_1 &= EX_i \\
+                 &= \mu, \\
+        \\
+        \theta_2 &= ES^2 & \left(\mbox{Exercise 5.8 (b)} \right)\\
+                 &= \fun{E}{\frac{\sigma^2}{n-1} \chi_{n-1}^2} \\
+                 &= \sigma^2, \\
+        \\
+        \theta_3 &= n \Cov{\ol{X}, S^2} & \left(\mbox{Exercise 5.8 (c)} \right)\\
+        &= 0, \\
+        \\
+        \theta_4 &= n \Var{S^2} + \frac{n-3}{n-1}\theta_2^2 & \left(\mbox{Exercise 5.8 (b)} \right)\\
+        &= n \Var{\frac{\sigma^2}{n-1} \chi_{n-1}^2} + \frac{n-3}{n-1}\theta_2^2 \\
+        &= \frac{2n \sigma^4}{n-1} + \frac{(n-3)\sigma^4}{n-1} \\
+        &= 3 \sigma^4.
+    \end{align*}
+    
+    
+\newpage
+\section{Exercise 5.12}
+
+Firstly, we have
+
+\begin{align*}
+    \fun{E}{\Abs{\frac{1}{n} \sum_{i=1}^n X_i}} &= \fun{E}{\Abs{\ol{X}}} \\
+    &= \fun{E}{\Abs{\normaldist{0, \frac{1}{n}}}} \\
+    & \hspace{0.3cm} \left( \mbox{\cite[Theorem 5.3.1 on page 218]{Berger-Casella}} \right) \\
+    &= \myint{\Abs{x} \cdot \frac{n}{\sqrt{2\pi}} e^{-\frac{1}{2} \left( nx \right)^2}}{x}{-\infty}{\infty} \\
+    &= \myint{x \cdot \frac{n}{\sqrt{2\pi}} e^{-\frac{1}{2} \left( nx \right)^2}}{x}{0}{\infty} - \myint{x \cdot \frac{n}{\sqrt{2\pi}} e^{-\frac{1}{2} \left( nx \right)^2}}{x}{-\infty}{0} \\
+    &= \frac{1}{\sqrt{2\pi}n} + \frac{1}{\sqrt{2\pi}n} \\
+    &= \frac{\sqrt{\frac{2}{\pi}}}{n}.
+\end{align*}
+Secondly, we have
+
+\begin{align*}
+    \fun{E}{\frac{1}{n} \sum_{i=1}^n \Abs{X_i}} &= \frac{1}{n} \sum_{i=1}^n \fun{E}{\Abs{X_i}} \\
+    &= \fun{E}{\Abs{X_i}} \\
+    &= \fun{E}{\Abs{\normaldist{0,1}}} \\
+    &= \sqrt{\frac{2}{\pi}}
+\end{align*}
+
+\newpage
+\section{Exercise 5.24}
+
+In other words, $X \sim \uniformdist{0, \theta}$. Hence, it has cdf
+
+\[ \fun{F_{X}}{x} = \frac{x}{\theta}. \]
+\cite[Theorem 5.4.6 page 230]{Berger-Casella} then gives us the joint distribution
+
+\begin{align}
+    \fun{f_{X_{(1)}, X_{(n)}}}{u, v} &= \frac{n!}{(n-2)!} \fun{f_X}{u} \fun{f_X}{v} \left[ \fun{F_X}{v} - \fun{F_X}{u} \right]^{n-2} \nonumber \\
+    &= \frac{n!}{(n-2)!} \frac{(v-u)^{n-2}}{\theta^n}.
+\end{align}
+
+Now, let $Z = \frac{X_{(1)}}{X_{(n)}}$ and $W = X_{(n)}$. Then
+
+\begin{align*}
+    \fun{f_{Z,W}}{z,w} &= \fun{f_{X_{(1)}, X_{(n)}}}{x(z,w), y(z,w)} \cdot \Abs{J} \\
+    &= \fun{f_{X_{(1)}, X_{(n)}}}{wz, w} \cdot \left\vert \begin{array}{cc}
+         w & z  \\
+         0 & 1
+    \end{array} \right\vert \\
+    &= \frac{n!}{(n-2)!} \frac{w^{n-1} (1-z)^{n-2}}{\theta^n}.
+\end{align*}
+Since the variables can be separated in the joint distribution, $Z$, $W$ are independent.
+
+\newpage
+\section{Exercise 5.25}
+
+From \cite[page 230]{Berger-Casella}, the joint distribution of all the order statistics is given by
+
+\begin{align}
+    \fun{f_{\orderstatvar{X}{1}, \cdots, \orderstatvar{X}{1}}}{x_1 < \cdots < x_n} &= n! \prod_{i=1}^n \fun{f_X}{x_i} \nonumber \\
+    &= \frac{a^n n!}{\theta^{an}} \left(\prod_{i=1}^n x_i \right)^{a-1}.
+\end{align}
+Define the new variables
+
+\begin{align*}
+    Y_i &= \left\{ \begin{array}{cl}
+         \frac{\orderstatvar{X}{i}}{\orderstatvar{X}{i+1}} & \mbox{if $i< n$},  \\
+         \orderstatvar{X}{n}& \mbox{if $i=n$}. 
+    \end{array} \right.
+\end{align*}
+We then compute the joint distribution
+
+\begin{align*}
+    \fun{f_{Y_1, \cdots, Y_{n}}}{y_1, \cdots, y_{n}} &= \fun{f_{\orderstatvar{X}{1}, \cdots, \orderstatvar{X}{n}}}{\fun{x_1}{y_1, \cdots, y_n}, \cdots, \fun{x_n}{y_1, \cdots, y_n}} \cdot \Abs{J} \\
+    &= \fun{f_{\orderstatvar{X}{1}, \cdots, \orderstatvar{X}{n}}}{\prod_{k=1}^n y_k, \cdots, \prod_{k=i}^n y_k, \cdots, y_n} \cdot \left( \prod_{i=1}^{n-1} \prod_{j=i+1}^n y_j \right) \\
+    &= \left(\frac{a^n n!}{\theta^{an}} \prod_{i=1}^n y_i^{i(a-1)}\right) \left( \prod_{i=2}^n y_{i}^{i-1} \right) \\
+    &= \frac{a^n n!}{\theta^{an}} \prod_{i=1}^n y_i^{ia-1}.
+\end{align*}
+This proves the independency.
+
+\newpage
+\section{Exercise 5.27}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item By \cite[Theorem 5.4.4 on page 229]{Berger-Casella} and Theorem 5.4.6 on page 230, loc. cit., we have
+
+\begin{align*}
+    \fun{f_{\conditbar{i}{j}}}{\conditbar{u}{v}} &= \frac{\fun{f_{\orderstatvar{X}{i}, \orderstatvar{X}{j}}}{u,v}}{\fun{f_{\orderstatvar{X}{j}}}{v}} \\
+    &= \frac{\frac{n! \fun{f_X}{u} \fun{f_X}{v} \left[ \fun{F_X}{u} \right]^{i-1} \left[ \fun{F_X}{v} - \fun{F_X}{u} \right]^{j-1-i} \left[ 1 - \fun{F_X}{v} \right]^{n-j}}{(i-1)!(j-1-i)!(n-j)!}}{\frac{n! \fun{f_X}{v} \left[ \fun{F_X}{v} \right]^{j-1} \left[ 1 - \fun{F_X}{v} \right]^{n-j}}{(j-1)!(n-j)!}} \\
+    &= \frac{(j-1)! \fun{f_X}{u} \left[ \fun{F_X}{u} \right]^{i-1} \left[ \fun{F_X}{v} - \fun{F_X}{u} \right]^{j-1-i}}{(i-1)!(j-1-i)! \left[ \fun{F_X}{v} \right]^{j-1}}
+\end{align*}
+
+\item $\fun{f_{\conditbar{V}{R}}}{\conditbar{v}{r}} = \frac{1}{a-r}$.
+\end{enumerate}
+
+\newpage
+\nocite{*}
+\printbibliography
+
+\end{document}

@@ -571,6 +571,81 @@ Then
     &\sim \normaldist{\gamma + \mu, 2\sigma^2} \cdot \normaldist{\gamma - \mu, 2\sigma^2}
 \end{align*}
 
+\newpage
+\section{Exercise 4.30}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Firstly,
+    
+    \begin{align*}
+        EY &= \fun{E}{\fun{E}{\conditbar{Y}{X}}} \\
+        & \ \ \ \ \left( \mbox{\cite[Theorem 4.4.3 on page 164]{Berger-Casella}} \right) \\
+        &= \fun{E}{\fun{E}{\normaldist{x,x^2}}} \\
+        &= \fun{E}{X} \\
+        &= \frac{1}{2}.
+    \end{align*}
+Secondly,
+
+    \begin{align*}
+        \Var{Y} &= \fun{E}{\Var{\conditbar{Y}{X}}} + \Var{\fun{E}{\conditbar{Y}{X}}} \\
+        &= \fun{E}{\Var{\normaldist{x,x^2}}} + \Var{\fun{E}{\normaldist{x, x^2}}} \\
+        &= \fun{E}{X^2} + \Var{X} \\
+        &= 2 \Var{X} + \fun{E}{X}^2 \\
+        &= \frac{5}{12}
+    \end{align*}
+Finally, to compute $\Cov{X,Y}$, we notice we have to deal with the random variable $XY$. Let $U = XY$, $V = X$. \cite[page 158]{Berger-Casella} gives the joint distribution
+
+\begin{equation}
+    \fun{f_{U,V}}{u,v} = \frac{1}{v} \fun{f_{X,Y}}{v, \frac{u}{v}},
+\end{equation}
+and (hence) the conditional distribution is given by
+
+\begin{align}
+    \fun{f_{\conditbar{U}{V}}}{\conditbar{u}{v}} &= \frac{\fun{f_{U,V}}{u,v}}{\fun{f_V}{v}} \nonumber \\
+                              &= \frac{\frac{1}{v} \fun{f_{X,Y}}{v, \frac{u}{v}}}{\fun{f_X}{v}} \nonumber \\
+                              &= \frac{1}{v} \fun{f_{\conditbar{Y}{X}}}{\conditbar{\frac{u}{v}}{v}}.
+\end{align}
+This allows us to prove the following formula for expectation:
+
+\begin{align}
+    \fun{E}{\fun{E}{\conditbar{XY}{X}}} &= \fun{E}{\fun{E}{\conditbar{U}{V}}} \nonumber \\
+    & \ \ \ \ \left( \mbox{$U = XY$, $V = X$} \right) \nonumber \\
+    &= \fun{E}{\myint{u \fun{f_{\conditbar{U}{V}}}{\conditbar{u}{v}}}{u}{}{}} \nonumber \\
+    &= \fun{E}{\myint{\frac{u}{v} \fun{f_{\conditbar{Y}{X}}}{\conditbar{\frac{u}{v}}{v}}}{u}{}{}} \nonumber \\
+    &= \fun{E}{\myint{xy \fun{f_{\conditbar{Y}{X}}}{\conditbar{y}{x}}}{y}{}{}} \nonumber \\
+    & \ \ \ \ \left( \mbox{$y = \frac{u}{v}$, $x = v$, $dy = \frac{1}{v} du$} \right) \nonumber \\
+    &= \fun{E}{X\fun{E}{\conditbar{Y}{X}}}.
+\end{align}
+As a result,
+
+\begin{align*}
+    \Cov{X,Y} &= \fun{E}{XY} - \left( EX \right) \left( EY \right) \\
+    &= \fun{E}{XY} - \frac{1}{4} \\
+    &= \fun{E}{\conditbar{XY}{X}} - \frac{1}{4} \\
+    &= \fun{E}{X\fun{E}{\conditbar{Y}{X}}} - \frac{1}{4} \\
+    &= \fun{E}{X \cdot \fun{E}{\normaldist{x, x^2}}} - \frac{1}{4} \\
+    &= \fun{E}{X^2} - \frac{1}{4} \\
+    &= \Var{X} + \left( EX \right)^2 - \frac{1}{4} \\
+    &= \frac{1}{12}.
+\end{align*}
+
+\item Let $U = \frac{Y}{X}$, $V = X$. The Jacobi matrix is given by
+
+\[ \left[ \begin{array}{cc}
+     0 & 1 \\
+     v & u \\
+\end{array} \right], \]
+and the joint distribution is given by
+
+\begin{align*}
+    \fun{f_{U,V}}{u,v} &= \fun{f_{X,Y}}{v, uv} \cdot \Abs{J} \\
+    & \ \ \ \ \left( \mbox{\cite[page 158]{Berger-Casella}} \right) \\
+    &= v \cdot \fun{f_X}{v} \cdot \fun{f_{\conditbar{Y}{X}}}{\conditbar{uv}{v}} \\
+    &= v \cdot 1 \cdot \Gaussianpdf{uv}{v}{v} \\
+    &= \underbrace{\Gaussianpdf{u}{1}{1}}_{\fun{f_U}{u}} \cdot \underbrace{1}_{\fun{f_V}{v}} \\
+    &\sim \normaldist{1,1} \cdot \uniformdist{0,1}.
+\end{align*}
+\end{enumerate}
 
 \newpage
 \nocite{*}

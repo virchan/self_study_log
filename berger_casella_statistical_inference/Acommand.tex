@@ -617,6 +617,8 @@
 %STATISTICS-------------------------------
 \newcommand{\Var}[1]{\operatorname{Var}\left( {#1} \right)} % variance
 
+\newcommand{\Cov}[1]{\operatorname{Cov}\left( {#1} \right)} % covariance
+
 \newcommand{\binomdist}[1]{\operatorname{Binomial}\left( {#1}\right)} % Binomial distribution
 
 \newcommand{\negbinomdist}[1]{\operatorname{NegBinomial}\left( {#1} \right)} % Negative Binomial distribution
@@ -634,5 +636,11 @@
 \newcommand{\gammadist}[1]{\operatorname{Gamma}\left( {#1} \right)} % Gamma distribution
 
 \newcommand{\betadist}[1]{\operatorname{Beta}\left( {#1} \right)} % Beta distribution
+
+\newcommand{\bernoullidist}[1]{\operatorname{Bernoulli}\left( {#1} \right)} % Bernoulli distribution
+
+\newcommand{\Gaussianpdf}[3]{ \frac{1}{\sqrt{2\pi} {#3}} e^{-\frac{1}{2} \left( \frac{{#1}-{#2}}{{#3}}\right)^2} } 
+
+\newcommand{\orderstatvar}[2]{{#1}_{\left( {#2} \right)}} % short-hand notation for ordered statistics
 
 %\END{COMMAND}
