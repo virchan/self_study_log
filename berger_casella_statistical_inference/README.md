@@ -7,3 +7,5 @@
 [Chapter 3: Common Families of Distributions](chapter_003.pdf)
 
 [Chapter 4: Multiple Random Variables](chapter_004.pdf)
+
+[Chapter 5: Properties of a Random Sample](chapter_005.pdf)
