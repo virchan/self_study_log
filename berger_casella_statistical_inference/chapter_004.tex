@@ -641,8 +641,8 @@ and the joint distribution is given by
     \fun{f_{U,V}}{u,v} &= \fun{f_{X,Y}}{v, uv} \cdot \Abs{J} \\
     & \ \ \ \ \left( \mbox{\cite[page 158]{Berger-Casella}} \right) \\
     &= v \cdot \fun{f_X}{v} \cdot \fun{f_{\conditbar{Y}{X}}}{\conditbar{uv}{v}} \\
-    &= v \cdot 1 \cdot \Gaussianpdf{uv}{v}{v} \\
-    &= \underbrace{\Gaussianpdf{u}{1}{1}}_{\fun{f_U}{u}} \cdot \underbrace{1}_{\fun{f_V}{v}} \\
+    &= v \cdot 1 \cdot \Gaussianpdf{\frac{uv-v}{v}}{v} \\
+    &= \underbrace{\Gaussianpdf{u-1}{}}_{\fun{f_U}{u}} \cdot \underbrace{1}_{\fun{f_V}{v}} \\
     &\sim \normaldist{1,1} \cdot \uniformdist{0,1}.
 \end{align*}
 \end{enumerate}

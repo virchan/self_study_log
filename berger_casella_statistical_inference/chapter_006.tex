@@ -1,0 +1,223 @@
+\documentclass[12pt,letterpaper,reqno]{amsart}
+
+
+\include{Apackages} %this loads the packages
+
+
+\makeindex
+
+\author{Virgil Chan}
+\title{Casella-Berger \\ Statistical Inference Solution: \\ Chapter 6}
+\date{September 14, 2022}
+
+
+\usetikzlibrary{patterns,positioning,arrows,chains,matrix,positioning,scopes} %options for tikzpicture
+
+\addbibresource{bibliography.bib} %put your reference here
+
+
+\makeatletter
+\patchcmd{\@maketitle}
+  {\ifx\@empty\@dedicatory}
+  {\ifx\@empty\@date \else {\vskip3ex \centering\footnotesize\@date\par\vskip1ex}\fi
+   \ifx\@empty\@dedicatory}
+  {}{}
+\patchcmd{\@adminfootnotes}
+  {\ifx\@empty\@date\else \@footnotetext{\@setdate}\fi}
+  {}{}{}
+\makeatother
+
+\include{Atheoremsenvironments}
+
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+    
+\include{Acommand}
+
+\makeatletter
+\tikzset{join/.code=\tikzset{after node path={%
+\ifx\tikzchainprevious\pgfutil@empty\else(\tikzchainprevious)%
+edge[every join]#1(\tikzchaincurrent)\fi}}}
+
+\makeatother
+
+%\tikzset{>=stealth',every on chain/.append style={join},
+%        every join/.style={->}}
+
+\newlength{\parindentsave}\setlength{\parindentsave}{\parindent}
+
+% \everymath{\displaystyle}
+
+\numberwithin{equation}{subsection} 
+
+\let\emptyset\varnothing
+
+\hypersetup{colorlinks,citecolor=blue,linkcolor=blue}
+
+\declaretheorem[numberwithin=section, shaded={rulecolor=black,
+rulewidth=0.5pt, bgcolor={rgb}{1,1,1}}]{Theorem}
+
+%\doublespacing
+
+\setcounter{tocdepth}{4}
+
+\everymath{\displaystyle}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Exercise 6.1}
+
+We have
+
+\begin{align*}
+    \fun{f_X}{\conditbar{x}{\sigma^2}} &= \Gaussianpdf{x}{\sigma} \\
+                                       &= \Gaussianpdf{\Abs{x}}{\sigma} \\
+                                       &= \fun{f_{X}}{\conditbar{\Abs{x}}{\sigma^2}} \cdot 1.
+\end{align*}
+Therefore, by \cite[Factorization Theorem 6.2.6 on page 276]{Berger-Casella}, the variable $\Abs{X}$ is a sufficient statistic for $\sigma^2$.
+
+\newpage
+\section{Exercise 6.2}
+
+The joint distribution is given by
+
+\begin{align*}
+    \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots, x_n}{\theta}} &= \prod_{i=1}^n \fun{f_{X_i}}{\conditbar{x_i}{\theta}} \\
+    &= \prod_{i=1}^n \fun{\chi_{[i\theta, \infty)}}{x_i} e^{i\theta - x_i} \\
+    &= \fun{\chi_{\left[ \theta, \infty \right)}}{\fun{\min_{1 \leq i \leq n}}{x_i}} \cdot e^{\displaystyle \sum_{i=1}^n i\theta - x_i} \\
+    &= \underbrace{\fun{\chi_{\left[ \theta, \infty \right)}}{\fun{\min_{1 \leq i \leq n}}{x_i}} e^{in\theta}}_{\fun{g}{\conditbar{\fun{\displaystyle \min_{1 \leq i \leq n}}{x_i}}{\theta}}} \cdot \underbrace{e^{\displaystyle -\sum_{i=1}^n x_i}}_{\fun{h}{x}}.
+\end{align*}
+The result then follows from  \cite[Factorization Theorem 6.2.6 on page 276]{Berger-Casella}.
+
+\newpage
+\section{Exercise 6.3}
+
+The joint distribution is given by
+
+\begin{align*}
+    \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots, x_n}{\mu, \sigma}} &= \prod_{i=1}^n \fun{\chi_{\left( \mu, \infty \right)}}{x_i} \frac{1}{\sigma} e^{\frac{-(x_i - \mu)}{\sigma}} \\
+    &= \underbrace{\fun{\chi_{\left( \mu, \infty \right)}}{\min_{1 \leq i \leq n} x_i} \cdot \frac{1}{\sigma^n} e^{\displaystyle \frac{\displaystyle -\sum_{i=1}^n x_i + n \mu}{\sigma}}}_{\fun{g}{\displaystyle \conditbar{\min_{1 \leq i \leq n} x_i, \sum_{i=1}^n x_i}{\mu, \sigma}}} \cdot \underbrace{1}_{\fun{h}{x}}.
+\end{align*}
+\cite[Factorization Theorem 6.2.6 on page 276]{Berger-Casella} says the pair $\left(\min_{1 \leq i \leq n} X_i, \sum_{i=1}^n X_i \right)$ gives a sufficient statistic for $(\mu, \sigma)$.
+
+\newpage
+\section{Exercise 6.5}
+
+The joint distribution is given by
+
+\begin{align*}
+    \fun{f}{\conditbar{x_1, \cdots, x_n}{\theta}} &= \prod_{i=1}^n \fun{\chi_{\left( -i (\theta - 1), i (\theta + 1) \right)}}{x_i} \frac{1}{2i\theta} \\
+    &= \prod_{i=1}^n \fun{\chi_{\left( \theta - 1, \theta + 1 \right)}}{\frac{x_i}{i}} \frac{1}{2i\theta} \\
+    &= \fun{\chi_{(\theta - 1, \theta + 1)}}{\min_{1 \leq i \leq n} \frac{x_i}{i}} \cdot \fun{\chi_{(\theta - 1, \theta + 1)}}{\max_{1 \leq i \leq n} \frac{x_i}{i}} \cdot \frac{1}{(2\theta)^n n!}.
+\end{align*}
+\cite[Factorization Theorem 6.2.6 on page 276]{Berger-Casella} says the pair $\left(\min_{1 \leq i \leq n} \frac{X_i}{i}, \sum_{i=1}^n \frac{X_i}{i} \right)$ gives a sufficient statistic for $\theta$.
+
+\newpage
+\section{Exercise 6.6}
+The joint distribution is given by
+
+\begin{align*}
+    \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots, x_n}{\alpha, \beta}} &= \prod_{i=1}^n \frac{x_i^{\alpha - 1} e^{-\beta x_i} \beta^{\alpha}}{\fun{\Gamma}{\alpha}} \\
+    &= \left( \frac{\beta^{\alpha}}{\fun{\Gamma}{\alpha}} \right)^n \cdot \left( \prod_{i=1}^n x_i \right)^{\alpha - 1} \cdot e^{\displaystyle - \beta \sum_{i=1}^n x_i}.
+\end{align*}
+\cite[Factorization Theorem 6.2.6 on page 276]{Berger-Casella} says the pair $\left(\prod_{i=1}^n X_i, \sum_{i=1}^n X_i \right)$ gives a sufficient statistic for $(\alpha, \beta)$.
+
+\newpage
+\section{Exercise 6.7}
+
+The joint distribution is given by
+
+\begin{align*}
+    \fun{f_{X_1, Y_1, \cdots, X_n, Y_n}}{ \conditbar{x_1, y_1, \cdots, x_n, y_n}{\theta_1, \theta_2, \theta_3, \theta_4}} &= \prod_{i=1}^n \frac{1}{(\theta_4 - \theta_2)(\theta_3 - \theta_1)} \cdot \fun{\chi_{(\theta_1, \theta_3)}}{x_i} \cdot \fun{\chi_{\theta_2, \theta_4}}{y_i} \\
+    &= \frac{1}{{(\theta_4 - \theta_2)^n (\theta_3 - \theta_1)^n}} \cdot\fun{\chi_{(\theta_1, \theta_3)}}{\min_{1 \leq i \leq n} x_i} \cdot \fun{\chi_{(\theta_1, \theta_3)}}{\max_{1 \leq i \leq n} x_i} \cdot \\
+    &\hspace{2.5cm} \fun{\chi_{(\theta_2, \theta_4)}}{\min_{1 \leq i \leq n} y_i} \cdot \fun{\chi_{(\theta_2, \theta_4)}}{\max_{1 \leq i \leq n} y_i}
+\end{align*}
+\cite[Factorization Theorem 6.2.6 on page 276]{Berger-Casella} says the tuple $\left( \min_{1 \leq i \leq n} X_i, \max_{1 \leq i \leq n} X_i, \min_{1 \leq i \leq n} Y_i, \max_{1 \leq i \leq n} Y_i \right)$ gives a sufficient statistic for $(\theta_1, \theta_2, \theta_3, \theta_4)$.
+
+\newpage
+\section{Exercise 6.8}
+
+We want to show the ordered statistic $(X_{(1)}, \cdots, X_{(n)})$ is a minimal sufficient statistic for $\theta$. The joint distribution is given by
+
+\begin{align*}
+    \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots, x_n}{\theta}} = \prod_{i=1}^n \fun{f}{x_i - \theta}.
+\end{align*}
+If the tuples $(x_i)_{i=1}^n$, $(y_i)_{i=1}^n$ are two sample points, such that $\fun{T}{(x_i)_{i=1}^n} = \fun{T}{(y_i)_{i=1}^n}$, then the two sets
+
+\[ \SETT{x_i}_{i=1}^n = \SETT{y_i}_{i=1}^n \]
+are the same. Hence,
+
+\[ \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots, x_n}{\theta}} = \fun{f_{X_1, \cdots, X_n}}{\conditbar{y_1, \cdots, y_n}{\theta}}. \]
+Therefore, \cite[Theorem 6.2.13 on page 281]{Berger-Casella} says the ordered statistic is minimal sufficient for $\theta$.
+
+\newpage
+\section{Exercise 6.9}
+
+Refer to \cite[Theorem 6.2.13 on page 281]{Berger-Casella}.
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item The joint distribution is given by
+    
+    \begin{align*}
+        \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots x_n}{\theta}} &= \prod_{i=1}^n \Gaussianpdf{x_i-\theta}{} \\
+        &= \frac{1}{(2 \pi)^{\frac{n}{2}}} \exp \left[ -\frac{1}{2} \sum_{i=1}^n (x_i- \theta)^2 \right].
+    \end{align*}
+    Therefore, we have
+    
+    \begin{align*}
+        \frac{\fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots x_n}{\theta}}}{\fun{f_{X_1, \cdots, X_n}}{\conditbar{y_1, \cdots y_n}{\theta}}} &= \exp \left[ - \frac{1}{2} \sum_{i=1}^n (x_i - \theta)^2 - (y_i - \theta)^2 \right] \\
+        &= \exp \left[ - \frac{1}{2} \sum_{i=1}^n x_i^2 - y_i^2 - 2\theta(y_i - x_i) \right] \\
+        &= \exp \left[ - \frac{1}{2} \left( \sum_{i=1}^n x_i^2 - y_i^2 \right) + n \theta (\ol{y} - \ol{x}) \right],
+    \end{align*}
+    which is independent of $\theta$ if $\ol{x} = \ol{y}$. Therefore, $\fun{T}{X} = \ol{X}$ is a minimal sufficient statistic for $\theta$.
+    
+    \item The joint distribution is given by
+    
+    \begin{align*}
+        \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots, x_n}{\theta}} &= \prod_{i=1}^n \fun{\chi_{(\theta, \infty)}}{x_i} \cdot e^{-(x_i - \theta)} \\
+        &= \fun{\chi_{(\theta, \infty)}}{\min_{1 \leq i \leq n} x_i} \cdot e^{-n\ol{x}} \cdot e^{n \theta}.
+    \end{align*}
+    Therefore, we have
+    
+    \begin{align*}
+        \frac{\fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots x_n}{\theta}}}{\fun{f_{X_1, \cdots, X_n}}{\conditbar{y_1, \cdots y_n}{\theta}}} &= \frac{\fun{\chi_{(\theta, \infty)}}{\displaystyle \min_{1 \leq i \leq n} x_i} \cdot e^{-n\ol{x}}}{\fun{\chi_{(\theta, \infty)}}{\displaystyle \min_{1 \leq i \leq n} y_i} \cdot e^{-n\ol{y}}},
+    \end{align*}
+    which is independent of $\theta$ if $\min_{1 \leq i \leq n} x_i = \min_{1 \leq i \leq n} y_i$. Therefore, $\fun{T}{X} = \min_{1 \leq i \leq n} X_i$ is a minimal sufficient statistic for $\theta$.
+    
+    \item The joint distribution is given by
+    
+    \begin{align*}
+        \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots, x_n}{\theta}} &= \prod_{i=1}^n \frac{e^{-(x_i-\theta)}}{\left(1 + e^{-(x_i-\theta)} \right)^2} \\
+        &= \frac{e^{-n \ol{x}}}{ \left[\displaystyle \prod_{i=1}^n 1 + e^{-(x_i - \theta)} \right]^2}.
+    \end{align*}
+    Therefore, we have
+    
+    \begin{align*}
+         \frac{\fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots x_n}{\theta}}}{\fun{f_{X_1, \cdots, X_n}}{\conditbar{y_1, \cdots y_n}{\theta}}} &= \frac{e^{n \ol{y}}}{e^{n \ol{x}}} \cdot \left[ \prod_{i=1}^n \frac{1 + e^{-(y_i - \theta)}}{1 + e^{-(x_i - \theta)}} \right]^2 \\
+         &= \frac{e^{n \ol{y}}}{e^{n \ol{x}}} \cdot \left[ \prod_{i=1}^n \frac{1 + e^{-(y_{(i)} - \theta)}}{1 + e^{-(x_{(i)} - \theta)}} \right]^2
+    \end{align*}
+    which is independent of $\theta$ if the ordered statistics of $x$ and $y$ agree. Therefore, the ordered statistic is a minimal sufficient statistic for $\theta$.
+    
+    \item A computation similar to part (c) shows the ordered statistic is a minimal sufficient statistic for $\theta$.
+    
+    \item The joint distribution is given by
+    
+    \begin{align*}
+         \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots, x_n}{\theta}} &= \prod_{i=1}^n \frac{1}{2} e^{-\Abs{x_i-\theta}} \\
+         &= \frac{1}{2^n} e^{\displaystyle -\sum_{i=1}^n \Abs{x_i - \theta}}
+    \end{align*}
+    Therefore, the ordered statistic gives a minimal sufficient statistic for $\theta$.
+    
+\end{enumerate}
+
+
+\newpage
+\nocite{*}
+\printbibliography
+
+\end{document}
