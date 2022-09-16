@@ -9,3 +9,5 @@
 [Chapter 4: Multiple Random Variables](chapter_004.pdf)
 
 [Chapter 5: Properties of a Random Sample](chapter_005.pdf)
+
+[Chapter 6: Principles of Data Reduction](chapter_006.pdf)
