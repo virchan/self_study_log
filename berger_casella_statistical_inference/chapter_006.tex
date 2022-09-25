@@ -215,6 +215,108 @@ Refer to \cite[Theorem 6.2.13 on page 281]{Berger-Casella}.
     
 \end{enumerate}
 
+\newpage
+\section{Exercise 6.11}
+
+C.f \cite[Section 3.5]{Berger-Casella}. We see that if $Z \sim \fun{f}{\conditbar{x}{0}}$, then the two variables
+
+\[ Z + \theta \sim X \] 
+are equal in distribution. It follows that the ordered statistics
+
+\[ Z_{(i)} + \theta \sim X_{(i)} \]
+of random samples from $X$ and $Z$ are equivalent for $1 \leq i \leq n$. Therefore,
+
+\begin{align*}
+    \left( Y_1, \cdots Y_{n - 1} \right) &= \left( X_{(n)} - X_{(1)}, \cdots, X_{(n)} - X_{(n - 1)} \right) \\
+    &\sim \left( Z_{(n)} + \theta - X_{(1)} - \theta, \cdots, Z_{(n)} + \theta - Z_{(n - 1)} - \theta \right) \\
+    &= \left( Z_{(n)} - Z_{(1)}, \cdots, Z_{(n)} - Z_{(n - 1)} \right).
+\end{align*}
+The joint distribution of the last tuple is a function of the joint distribution of $(Z_1, \cdots, Z_n)$, which is a function of $\fun{f}{\conditbar{x}{0}}$. In other words, the joint distribution of the last tuple does not depend on $\theta$, proving the claim as desired.
+\newpage
+\section{Exercise 6.12}
+
+\begin{enumerate}[label=(\alph*),leftmargin=*]
+    \item Firstly, to prove minimal sufficiency, we compute the joint distribution
+    
+    \begin{align*}
+        \fun{f_{X,N}}{\conditbar{x,n}{\theta}} &= \fun{f_X}{\conditbar{x}{\theta, n}} \cdot \fun{f_N}{n} \\
+        &= \binom{n}{x} \theta^x (1-\theta)^{n-x} \cdot p_n.
+    \end{align*}
+    This gives the quotient
+    
+    \begin{align*}
+        \frac{\fun{f_{X,N}}{\conditbar{x,n}{\theta}}}{\fun{f_{X,N}}{\conditbar{y,m}{\theta}}} &= \frac{ \binom{n}{x} \theta^x (1-\theta)^{n-x} \cdot p_n}{\binom{m}{y} \theta^y (1-\theta)^{m-y} \cdot p_m} \\
+        &= \frac{\binom{n}{x}p_n \theta^{x-y} (1-\theta)^{n-m+y-x}}{\binom{m}{y}p_m},
+    \end{align*}
+    which is independent of $\theta$ if $x = y$ and $n = m$. As a result, the tuple $(X, N)$ gives a minimal sufficient statistic for $\theta$.
+    
+    Next, $N$ is ancillary for $\theta$ because its distribution
+    
+    \begin{align*}
+        \fun{f_N}{n} = p_n
+    \end{align*}
+    does not depend on $\theta$.
+    
+    \item For the uniase part, we need to show the expected values for $X/N$ and $\theta$ agree. We compute
+    
+    \begin{align*}
+        \fun{E}{X/N} &= \fun{E}{\fun{E}{\conditbar{X/N}{N}}} \\
+        &= \fun{E}{N^{-1} \fun{E}{\conditbar{X}{N}}} & \left( \mbox{c.f. solution to Exercise 4.30 (a)} \right) \\
+        &= \fun{E}{N^{-1} \cdot \fun{E}{\binomdist{N, \theta}}} \\
+        &= \fun{E}{N^{-1} \cdot N\theta} \\
+        &= \fun{E}{\theta}.
+    \end{align*}
+    
+    We now compute the variance with \cite[Theorem 4.4.7 page 167]{Berger-Casella}:
+    
+    \begin{align*}
+        \Var{X/N} &= \fun{E}{\Var{\conditbar{X/N}{N}}} + \Var{\fun{E}{\conditbar{X/N}{N}}} \\
+        &= \fun{E}{N^{-2} \Var{\conditbar{X}{N}}} + \Var{N^{-1} \fun{E}{\conditbar{X}{N}}} \\
+        &= \fun{E}{N^{-2} \Var{\binomdist{N, \theta}}} + \Var{N^{-1} \fun{E}{\binomdist{N, \theta}}} \\
+        &= \fun{E}{\frac{N\theta (1-\theta)}{N^2}} + \Var{\theta} \\
+        &= \theta (1-\theta) \fun{E}{\frac{1}{N}}.
+    \end{align*}
+\end{enumerate}
+
+\newpage
+\section{Exercise 6.13}
+
+From \cite[Theorem 4.3.5 on page 161]{Berger-Casella}, the variables$Y_i = \log(X_i)$ are iid observations from the pdf
+\begin{align*}
+    \fun{f_Y}{\conditbar{y}{\alpha}} &= \fun{f_{X}}{\conditbar{e^y}{\alpha}} \cdot \Abs{e^y} \\
+    &= \alpha e^{\alpha y - e^{\alpha y}},
+\end{align*}
+In particular, if $\hat{Y} \sim \fun{f_Y}{\conditbar{y}{1}}$, then $Y \sim \frac{1}{\alpha} \hat{Y}$. Therefore,
+
+\begin{align*}
+    \frac{\log(X_1)}{\log(X_2)} &\sim \frac{Y_1}{Y_2} \\
+    &\sim \frac{\hat{Y}_1}{\hat{Y}_2}.
+\end{align*}
+The distribution of the last quotient is a function of $\fun{f_Y}{\conditbar{y}{1}}$, which does not depend on $\alpha$, proving the claim as desired.
+
+\newpage
+\section{Exercise 6.14}
+
+Fix $n \geq 1$, and write $MY$ the sample median computed from $n$ random sample from $X$.
+
+Next, define the variable
+
+\[ Z = \frac{X- EX}{\sqrt{\Var{X}}}. \]
+Then $Z$ is in the location family, and does not depend on the location parameter. Moreover, we have
+
+\[ X = Z + EX. \]
+It follows that
+
+\begin{align*}
+    MX &= MZ + EX, \\
+    \ol{X} &= \ol{Z} + EX.
+\end{align*}
+Hence, we obtain
+
+\begin{align*}
+    MX - \ol{X} &= MZ - \ol{Z},
+\end{align*}
+and the claim holds as desired.
 
 \newpage
 \nocite{*}
