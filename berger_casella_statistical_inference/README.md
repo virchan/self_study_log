@@ -11,3 +11,5 @@
 [Chapter 5: Properties of a Random Sample](chapter_005.pdf)
 
 [Chapter 6: Principles of Data Reduction](chapter_006.pdf)
+
+[Chapter 7: Point Estimation](chapter_007.pdf)

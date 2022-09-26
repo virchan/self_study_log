@@ -1,0 +1,132 @@
+\documentclass[12pt,letterpaper,reqno]{amsart}
+
+
+\include{Apackages} %this loads the packages
+
+
+\makeindex
+
+\author{Virgil Chan}
+\title{Casella-Berger \\ Statistical Inference Solution: \\ Chapter 7}
+\date{September 26, 2022}
+
+
+\usetikzlibrary{patterns,positioning,arrows,chains,matrix,positioning,scopes} %options for tikzpicture
+
+\addbibresource{bibliography.bib} %put your reference here
+
+
+\makeatletter
+\patchcmd{\@maketitle}
+  {\ifx\@empty\@dedicatory}
+  {\ifx\@empty\@date \else {\vskip3ex \centering\footnotesize\@date\par\vskip1ex}\fi
+   \ifx\@empty\@dedicatory}
+  {}{}
+\patchcmd{\@adminfootnotes}
+  {\ifx\@empty\@date\else \@footnotetext{\@setdate}\fi}
+  {}{}{}
+\makeatother
+
+\include{Atheoremsenvironments}
+
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+
+    
+\include{Acommand}
+
+\makeatletter
+\tikzset{join/.code=\tikzset{after node path={%
+\ifx\tikzchainprevious\pgfutil@empty\else(\tikzchainprevious)%
+edge[every join]#1(\tikzchaincurrent)\fi}}}
+
+\makeatother
+
+%\tikzset{>=stealth',every on chain/.append style={join},
+%        every join/.style={->}}
+
+\newlength{\parindentsave}\setlength{\parindentsave}{\parindent}
+
+% \everymath{\displaystyle}
+
+\numberwithin{equation}{subsection} 
+
+\let\emptyset\varnothing
+
+\hypersetup{colorlinks,citecolor=blue,linkcolor=blue}
+
+\declaretheorem[numberwithin=section, shaded={rulecolor=black,
+rulewidth=0.5pt, bgcolor={rgb}{1,1,1}}]{Theorem}
+
+%\doublespacing
+
+\setcounter{tocdepth}{4}
+
+\everymath{\displaystyle}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Exercise 7.1}
+
+For each $x$, we find $\theta$ so that $\fun{f}{\conditbar{x}{\theta}}$ is maximised.
+
+\begin{center}
+    \begin{tabular}{|c||c|c|c|c|c|}
+    \hline
+         $x$ & 0 & 1 & 2 & 3 & 4  \\
+    \hline
+         $\theta$ & 1 & 1 & Either 2 or 3 works & 3 & 3 \\
+    \hline
+    $\fun{f}{\conditbar{x}{\theta}}$ & $\frac{1}{3}$ & $\frac{1}{3}$ & $\frac{1}{4}$ & $\frac{1}{2}$ & $\frac{1}{4}$ \\
+    \hline
+    \end{tabular}
+\end{center}
+Therefore,
+
+\begin{align*}
+    \fun{\hat{\theta}_1}{x} &= \left\{ \begin{array}{cl}
+        1 & \mbox{if $x = 0, 1$,}\\
+        2 & \mbox{if $x = 2$,} \\
+        3 & \mbox{if $x =3,4$}
+    \end{array} \right.
+    & \fun{\hat{\theta}_2}{x} &= \left\{ \begin{array}{cl}
+        1 & \mbox{if $x = 0, 1$,}\\
+        3 & \mbox{if $x =2, 3, 4$,} \\
+    \end{array} \right.
+\end{align*}
+are the possible MLEs' for $\theta$.
+
+\newpage
+\section{Exercise 7.2}
+
+The likelihood function for $\beta$ is given by
+
+\begin{align*}
+    \fun{L}{\conditbar{\beta}{x_1, \cdots, x_n}} &= \prod_{i=1}^n \fun{f}{x_i \mbox{; } \alpha, \beta} \\
+    &= \prod_{i=1}^n \frac{x_i^{\alpha - 1} e^{- \frac{x_i}{\beta}}}{\fun{\Gamma}{\alpha} \beta^{\alpha}} \\
+    &= \frac{\displaystyle \left( \prod_{i=1}^n x_i \right)^{\alpha - 1}}{\left[\fun{\Gamma}{\alpha} \right]^n} \cdot \exp \left[- \frac{\displaystyle \sum_{i=1}^n x_i}{\beta} \right] \cdot \beta^{\alpha n},
+\end{align*}
+and has derivative
+
+\begin{align*}
+    \dif{L}{\beta} &= \frac{\displaystyle \left( \prod_{i=1}^n x_i \right)^{\alpha - 1}}{\left[\fun{\Gamma}{\alpha} \right]^n} \cdot  \exp \left[- \frac{\displaystyle \sum_{i=1}^n x_i}{\beta} \right] \cdot \beta^{-\alpha n-2} \cdot \left( \sum_{i=1}^n x_i - \alpha n \beta \right).
+\end{align*}
+In particular,
+
+\begin{align*}
+    \dif{L}{\beta} = 0 &\iff \sum_{i=1}^n x_i - \alpha n \beta = 0 \\
+    &\iff \beta = \frac{\displaystyle \sum_{i=1}^n x_i}{\alpha n}.
+\end{align*}
+It remains to show this $\beta$ maximises $L$.
+
+We note that the sign of $\dif{L}{\beta}$ is completely determined by the sign of the term $\sum_{i=1}^n x_i - \alpha n \beta$. Thus, algebra says $\hat{\beta} = \frac{\displaystyle \sum_{i=1}^n x_i}{\alpha n}$ is the MLE for $\beta$.
+
+\newpage
+\nocite{*}
+\printbibliography
+
+\end{document}
