@@ -123,7 +123,78 @@ In particular,
 \end{align*}
 It remains to show this $\beta$ maximises $L$.
 
-We note that the sign of $\dif{L}{\beta}$ is completely determined by the sign of the term $\sum_{i=1}^n x_i - \alpha n \beta$. Thus, algebra says $\hat{\beta} = \frac{\displaystyle \sum_{i=1}^n x_i}{\alpha n}$ is the MLE for $\beta$.
+We note that the sign of $\dif{L}{\beta}$ is completely determined by the sign of the term $\sum_{i=1}^n x_i - \alpha n \beta$. Furthermore,
+
+\begin{align*}
+    \left. \dif{L}{\beta} \right\vert_{\beta = \hat{\beta} + \ve} &= - \alpha n \ve \\
+    &= \left\{ \begin{array}{cl}
+       > 0  & \mbox{if $\ve < 0$,}  \\
+       < 0 & \mbox{if $\ve > 0$.}
+    \end{array} \right.
+\end{align*}
+
+
+
+Thus, the First Derivative Test says $\hat{\beta} = \frac{\displaystyle \sum_{i=1}^n x_i}{\alpha n}$ is the MLE for $\beta$.
+
+\newpage
+\section{Exercise 7.3}
+
+Pre-calculus.
+
+\newpage
+\section{Exercise 7.6}
+
+\begin{enumerate}[label=(\alph*), leftmargin=*]
+    \item The joint distribution is given by
+    
+    \begin{align*}
+        \fun{f_{X_1, \cdots, X_n}}{\conditbar{x_1, \cdots, x_n}{\theta}} &= \prod_{i=1}^n \fun{\chi_{\left[ \theta, \infty \right)}}{x_i} \cdot \frac{\theta}{x_i^2} \\
+        &= \frac{\fun{\chi_{\left[ \theta, \infty \right)}}{\displaystyle \min_{1 \leq i \leq n} x_i}}{\displaystyle \left( \prod_{i=1}^n x_i \right)^2} \cdot \theta^n.
+    \end{align*}
+\cite[Factorization Theorem 6.2.6 on page 276]{Berger-Casella} says the tuple $\left( \min_{1 \leq i \leq n} X_i, \prod_{i=1}^n X_i \right)$ is a sufficient statistic for $\theta$.
+
+\item Up to a positive multiplier, the likelihood function $\fun{L}{\conditbar{\theta}{x_1, \cdots, x_n}}$ is just the monomial $\theta^n$. But $\theta^n$ has no maximum on the interval $\left( 0, \infty \right)$. However, there is also the characteristic function $\fun{\chi_{\left[ \theta, \infty \right)}}{\min_{1 \leq i \leq n} x_i}$, which restricts $\theta$ inside the interval $\left( 0, \min_{1 \leq i \leq n} x_i \right]$. We summarise this discussion as the following optimisation problem
+
+\[ \max_{\theta \in \left( 0, \displaystyle \min_{1 \leq i \leq n} x_i \right]} \left[ \frac{\fun{\chi_{\left[ \theta, \infty \right)}}{\displaystyle \min_{1 \leq i \leq n} x_i}}{\displaystyle \left( \prod_{i=1}^n x_i \right)^2} \cdot \theta^n \right], \]
+and its solution is $\hat{\theta} = \min_{1 \leq i \leq n} x_i$.
+
+\item We compute the moments
+
+\begin{align*}
+    \funbracket{E_{\theta}}{X^n} &= \myint{x^n \cdot \fun{f}{\conditbar{x}{\theta}}}{x}{0}{\infty} \\
+    &= \myint{\theta x^{n-2}}{x}{0}{\infty} \\
+    &= \infty & \left( \mbox{since $n \geq 1$} \right).
+\end{align*}
+Therefore, the desired estimator does not exist.
+\end{enumerate}
+
+\newpage
+\section{Exercise 7.7}
+
+The likelihood function is given by
+
+\begin{align*}
+    \fun{L}{\conditbar{\theta}{x_1, \cdots, x_n}} &= \prod_{i=1}^n \fun{f}{\conditbar{x_i}{\theta}} \\
+    &= \left\{ \begin{array}{cl}
+        \displaystyle \prod_{i=1}^n 1 & \mbox{if $\theta = 0$ and $0 < x < 1$}, \\
+        \displaystyle \prod_{i=1}^n \frac{1}{2 \sqrt{x_i}} & \mbox{if $\theta = 1$ and $0 < x < 1$}, \\
+        0 & \mbox{if else}.
+    \end{array} \right. \\
+        &= \left\{ \begin{array}{cl}
+        1 & \mbox{if $\theta = 0$ and $0 < x < 1$}, \\
+        \displaystyle \prod_{i=1}^n \frac{1}{2 \sqrt{x_i}} & \mbox{if $\theta = 1$ and $0 < x < 1$}, \\
+        0 & \mbox{if else}.
+    \end{array} \right.
+\end{align*}
+Therefore, the MLE is
+
+\begin{align*}
+    \fun{\hat{\theta}}{x_1, \cdots, x_n} &= \left\{ \begin{array}{cl}
+         0 & \mbox{if $\prod_{i=1}^n \frac{1}{2 \sqrt{x_i}} \leq 1$}, \\
+         1 & \mbox{if else}.
+    \end{array} \right.
+\end{align*}
 
 \newpage
 \nocite{*}
