@@ -1,6 +1,6 @@
 # Self-Study Notes on PySpark
 
-<ol style = "type:0">
+<ol start="0">
     <li><a href = "/pyspark_practice/files/000_spark_overview.ipynb">Spark Overview</a></li>
     <li><a href = "/pyspark_practice/files/001_spark_df.ipynb">Spark Dataframes</a></li>
     <li><a href = "/pyspark_practice/files/002_spark_df_ops.ipynb">Operations on Spark Dataframes</a></li>
