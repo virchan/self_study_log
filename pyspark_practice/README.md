@@ -1,3 +1,10 @@
-# Self-Study on PySpark
+# Self-Study Notes on PySpark
 
-The [html file](https://htmlpreview.github.io/?https://github.com/virchan/self_study_log/blob/main/pyspark_practice/pyspark_practice.html) was created with Jupyter notebook running on a Amazon EC2 server. It illustrates how to use Spark to perform data science tasks. The content is based on a Data Science/Machine Learning Bootcamp the author participated.
+<ol start="0">
+    <li><a href = "/pyspark_practice/files/000_spark_overview.ipynb">Spark Overview</a></li>
+    <li><a href = "/pyspark_practice/files/001_spark_df.ipynb">Spark Dataframes</a></li>
+    <li><a href = "/pyspark_practice/files/002_spark_df_ops.ipynb">Operations on Spark Dataframes</a></li>
+    <li><a href = "/pyspark_practice/files/003_spakr_df_groupby_aggregate_func.ipynb">Groupby and Aggregate Functions on Spark Dataframes</a></li>
+    <li><a href = "/pyspark_practice/files/004_spark_df_missing_data.ipynb">Missing Values in Spark Dataframes</a></li>
+    <li><a href = "/pyspark_practice/files/005_spark_df_dates_timestamps.ipynb">Dates and Timestamps in Spark Dataframes</a></li>
+</ol>
