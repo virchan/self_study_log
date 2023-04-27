@@ -1,4 +1,4 @@
-# Selected Solutions to Statiscal Inference by Berger and Casella
+# Selected Solutions to Statistical Inference by Berger and Casella
 
 [Chapter 1: Probability Theory](chapter_001.pdf)
 
