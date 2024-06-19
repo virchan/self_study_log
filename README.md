@@ -2,7 +2,7 @@
 
 A repo recording the author's study progress.
 
-* [Leetcode SQL 50](leetcodesql50/leetcodesql50solution.ipynb)
+* [Leetcode SQL 50](leetcodesql50/leetcodesql50solution.md)
 
 * [Selected Solutions to "Statistical Inference" by Casella-Berger](berger_casella_statistical_inference/README.md)
 
